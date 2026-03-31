@@ -1,0 +1,203 @@
+Item Chapter\Section Missing: (0%) Unsatisfactory: (0-50%) Developing: (50-70%)  Satisfactory: (70-90%) Exemplary: (90%-102%)
+Final Design Analysis (3-Page 
+Discipline Summary) (Specific to 
+your department)
+4.3.1 Final Design 
+Analysis (Your 
+Discipline Contributions 
+only)
+No original analysis provided; content is missing or 
+plagiarized.
+Provides minimal analysis with significant omissions. 
+Lacks important equations, diagrams, or relevant 
+discussions. Fails to address key components or 
+assumptions.
+Offers a general analysis covering main components. 
+Includes some relevant equations and diagrams. 
+Addresses key assumptions and concepts superficially.
+Provides a clear and detailed analysis of each 
+component. Incorporates important equations, diagrams, 
+and discussions. Addresses key assumptions and 
+concepts thoroughly.
+Delivers an insightful and comprehensive analysis of all 
+components. Integrates critical equations, detailed 
+diagrams, and in-depth discussions. Critically evaluates 
+assumptions and concepts, demonstrating deep 
+understanding.
+Final Prototype Summary Figure 
+(Specific to your department)
+Summary Figures in 5.1 
+Final Prototype (Your 
+Discipline only)
+No figure provided, or content is plagiarized.
+Provides a minimal or unclear figure with significant 
+omissions. Fails to effectively represent departmental 
+contributions or team coordination.
+Offers a basic figure that identifies departmental 
+contributions. Includes some representation of team 
+coordination, though details may be lacking.
+Presents a clear and detailed figure illustrating each 
+department's contribution. Effectively depicts team 
+coordination using an appropriate diagram type.
+Delivers a comprehensive and well-structured figure that 
+clearly highlights each department's contribution. Uses a 
+sophisticated diagram to illustrate team coordination, 
+demonstrating a deep understanding of interdisciplinary 
+collaboration.
+Prototype Build, Safety, and Cost5.1.1 Prototype Build, 
+5.1.2 Safety, 5.1.3 Cost
+No description provided; content is missing or 
+plagiarized.
+Prototype Build: Provides a minimal or unclear 
+description of materials, fabrication methods, and 
+assembly processes.Safety: Mentions safety 
+considerations superficially without detail. Cost: Briefly 
+mentions prototype cost with little to no discussion of 
+cost-saving measures.
+Prototype Build: Offers a basic description of materials, 
+fabrication methods, and assembly processes; includes 
+some images or diagrams. Safety: Discusses safety 
+considerations during construction, testing, and 
+operation in general terms. Cost: Provides an estimated 
+cost of the prototype with a brief mention of cost-saving 
+measures employed.
+Prototype Build: Provides a clear and detailed 
+description of materials, fabrication methods, and 
+assembly processes; includes relevant images or 
+diagrams. Safety: Thoroughly discusses safety 
+considerations during construction, testing, and 
+operation, highlighting specific measures taken. Cost: 
+Presents a detailed cost analysis of the prototype, 
+referencing the Bill of Materials, and discusses cost-
+saving measures implemented.
+Prototype Build: Delivers a comprehensive and insightful 
+description of materials, fabrication methods, and 
+assembly processes; includes high-quality images or 
+diagrams. Safety: Provides an in-depth analysis of safety 
+considerations during construction, testing, and 
+operation, demonstrating a proactive approach to safety 
+management. Cost: Offers a thorough and precise cost 
+analysis of the prototype, with detailed references to the 
+Bill of Materials, and critically evaluates cost-saving 
+measures employed.
+Verification Test (Specific to 
+your department)
+5.2 Verification Test 
+Description (3-page 
+summary per discipline ) 
+(Your Discipline only)
+No content is submitted, or material is copied without 
+attribution. Fails to address any form of prototype testing 
+or validation. Completely unacceptable as evidence of 
+verification.
+Provides only basic or incomplete testing information. 
+Relies exclusively on simulations with minimal or unclear 
+data. Lacks meaningful interpretation or connection to 
+design goals. No physical testing is conducted. Does not 
+address discipline-specific validation.
+Demonstrates effort in verification but lacks depth or 
+thoroughness. May include partial physical testing or low-
+fidelity results. Contains some relevant data or 
+simulation but with weak analysis. Minor connection to 
+design assumptions. Some key components may be 
+omitted or underdeveloped.
+Presents well-structured physical prototype testing and 
+validation. Includes relevant data, supported by testing 
+procedures and analysis. Addresses discipline-specific 
+aspects. Uses diagrams, tables, or test results 
+effectively. Most design assumptions and validation 
+steps are discussed with clarity.
+Delivers a comprehensive and insightful verification of 
+the physical prototype, supported by extensive test data. 
+Clearly links results to discipline-specific objectives and 
+design assumptions. Includes detailed procedures, 
+critical evaluation, and justification for results. Uses 
+visuals and data interpretation effectively to validate the 
+design.
+Final Prototype Performance 
+Results 
+5.3 Prototype 
+Performance Results 
+(Table 5: Summary of 
+Project Constraints and 
+Specifications 
+Attainment in the 
+Prototype) (Your 
+Discipline only)
+No submission, evidence of plagiarism, or < 25% of 
+constraints and specifications met by the prototype.
+25% to 50% of constraints and specifications met by the 
+prototype.
+50% to 75% of constraints and specifications met by the 
+prototype.
+100% of constraints and specifications met by  the 
+prototype.  Clear and concise summary; covers essential 
+elements of the prototype; some minor errors may be 
+present. Good insight into the prototype process and 
+outcomes.
+100% of constraints and specifications met by the 
+prototype. Comprehensive, clear, and professionally 
+presented; includes all essential details. Exceptional 
+understanding and insight into  the prototype process; 
+effectively communicates the prototype's significance.
+Future Recommendation
+5.4 Future 
+Prototyping/Mass 
+Production 
+Recommendation
+No recommendations provided or plagiarized content. 
+Fails to consider any manufacturing aspects. No 
+discipline-specific insight or foresight shown.
+ Offers vague or generic recommendations. Lacks 
+justification, feasibility, or technical grounding. Does not 
+address specific manufacturing challenges or 
+opportunities. Discipline-specific concerns are missing or 
+minimally discussed.
+Provides general but relevant recommendations. 
+Addresses some discipline-specific manufacturing 
+aspects with limited depth. Mentions potential 
+improvements, but lacks thorough analysis or feasibility 
+evaluation. Little to no consideration of scaling, cost, or 
+process optimization.
+Delivers clear, relevant, and technically grounded 
+recommendations for future manufacturing. Discusses 
+discipline-specific processes, potential materials, or 
+technologies. Shows awareness of practical constraints 
+and areas for improvement in manufacturability.
+Presents comprehensive, insightful, and forward-thinking 
+manufacturing recommendations. Thoroughly explores 
+discipline-specific considerations, such as design for 
+manufacturability (DFM), cost reduction, scalability, 
+automation, and process improvements. Backed by 
+technical justification and potential industry relevance.
+Comments on Reply to PPR and 
+Second Installment Report 
+Reviewers' Comments (Specific 
+to your department)
+Appendix H (Your 
+Discipline only)
+Missing entirely, plagiarized, or provides no meaningful 
+response to the reviewers' comments. Responses are 
+generic, fail to address specific comments, or lack 
+references to revised sections.
+Responses are incomplete, unclear, or lack detail. Key 
+points from reviewers’ comments are not adequately 
+addressed, and changes in the report are poorly 
+referenced. Track Changes or color coding is 
+inconsistent or absent.
+Addresses most comments with satisfactory responses 
+but lacks depth or precision. References to revised 
+sections, figures, or tables are present but may be 
+inconsistent. Track Changes and discipline-based color 
+coding are applied but with minor errors.
+Well-structured and detailed responses. Addresses all 
+comments clearly with specific references to revised 
+sections. Track Changes and color coding are 
+consistently applied. Responses are polite, professional, 
+and demonstrate how feedback improved the report.
+Comprehensive and polished. Each comment is 
+addressed thoroughly and professionally, with detailed 
+references to revisions (sections, figures, tables). Track 
+Changes and discipline-based color coding are 
+flawlessly applied. Responses acknowledge feedback 
+politely and clearly explain improvements.

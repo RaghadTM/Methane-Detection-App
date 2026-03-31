@@ -1,0 +1,60 @@
+ 
+ 
+ 19 
+1. A benchtop pipeline test rig with controlled methane leak simulation. 
+2. An infrared emitter–detector sensing subsystem integrated with signal conditioning and 
+a microcontroller. 
+3. A wireless communication and cloud data pipeline for remote data transmission and 
+storage. 
+4. A software application that displays methane detection status, signal visualization, and 
+event logs. 
+5. Documented system testing results in demonstrating detection performance under 
+controlled laboratory conditions. 
+ 
+ 
+ 
+2.1.4  Customer Needs 
+The customer needs identified for this project are as follows: 
+1. The system must detect methane leaks reliably under controlled conditions. 
+2. The system must support safe laboratory testing without requiring field deployment. 
+3. The system must provide clear and interpretable leak indication to the user. 
+4. The system must reduce false alarms caused by noise or transient effects. 
+5. The system must support future scalability and adaptation to more advanced 
+monitoring solutions. 
+ 
+2.1.5  Standards 
+The design and operation of the proposed methane leak detection system follow a 
+limited set of safety, laboratory, communication, and data security standards that are directly 
+relevant to the project constraints and specifications. These standards are cons idered to ensure 
+safe laboratory testing, reliable system operation, and secure data transmission: 
+ 
+ 
+ 20 
+• OSHA (Occupational Safety and Health Administration) standards related to the 
+handling of flammable gases and safe operation of electrical equipment during 
+laboratory testing. 
+• Lower Explosive Limit (LEL) safety guidelines for methane, used to define safe 
+detection thresholds below hazardous concentration levels. 
+• Advanced Encryption Standard (AES-128) for securing transmitted sensor data. 
+• KFUPM laboratory safety regulations governing calibration of gases, experimental 
+procedures, and laboratory operation. 
+ 
+2.1.6  Constraints 
+The proposed methane leak detection system is subject to the following constraints, 
+which define the boundaries and limitations within which the design, implementation, and 
+testing must be conducted: 
+1. The total cost of the prototype shall not exceed 15,000 SAR. 
+2. System sensitivity shall be limited to ppm -level methane detection, prioritizing low 
+power consumption and system simplicity over ppb-level sensitivity. 
+3. Methane measurement accuracy may be affected by environmental factors, including 
+humidity, carbon dioxide (CO₂), and other hydrocarbons. 
+4. Optical alignment between the infrared source and detector must be maintained to 
+ensure reliable methane detection. 
+5. The system shall operate under outdoor pipeline conditions, including 0 –60 °C 
+temperature, up to 95% relative humidity (non-condensing), and dust exposure. 
+6. Calibration of gases and testing procedures must comply with KFUPM laboratory 
+requirements. 
+7. System operation must comply with OSHA safety standards, particularly those related 
+to flammable gas handling and laboratory electrical safety. 
+8. Infrared source of intensity drifts, and ambient infrared noise may affect long -term 
+signal stability. 

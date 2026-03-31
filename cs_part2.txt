@@ -1,0 +1,652 @@
+ 
+ 
+ 71 
+4.3.2.1 Safety Margin and Early-Warning Detection Philosophy 
+A key design objective of the final system is operation within the  sub-LEL regime, 
+ensuring that methane detection occurs significantly before concentrations approach flammable 
+conditions. This transforms the sensing system from a reactive hazard indicator into 
+a preventive early-warning mechanism, consistent with petroleum -industry risk-management 
+philosophy where mitigation is prioritized prior to escalation. 
+Let Cd denote the minimum detectable methane concentration expressed in %LEL.  
+Safe early-warning operation requires: 
+Cd ≪ 100% LEL  
+and practically: 
+Cd ≤ 1–5% LEL  
+Operating within this conservative range provides: 
+• Large safety margin from ignition risk 
+• Sufficient time for corrective intervention 
+• Reduced probability of fire or explosion escalation 
+Thus, the LEL -referenced framework defines both  technical detectability  and safety 
+compliance simultaneously. 
+4.3.2.2 Methane Dispersion Physics and Distance-Dependent 
+Detectability 
+Following leakage at a pipeline joint, methane forms a  localized turbulent plume  whose 
+concentration decreases with radial distance due to atmospheric dilution and mixing. Although 
+full computational fluid-dynamics modeling is outside project scope, dispersion behavior can 
+be represented using a simplified power-law decay: 
+C(x) ∝ (1/x^n), n > 0 
+where: 
+ 
+ 
+ 72 
+• x = distance from leak source 
+• n = empirical dispersion exponent influenced by turbulence and airflow 
+This relationship provides several engineering implications: 
+1. Detectability is strongly distance-dependent, requiring sensor placement near probable 
+leak sources. 
+2. Joint-level monitoring is justified , since methane concentration is highest close to the 
+containment failure. 
+3. Validation testing must include multiple distances  to confirm consistent detection 
+within the expected near-field region. 
+These conclusions reinforce the petroleum -engineering decision to focus sensing at  pipeline 
+joints rather than along intact pipe segments. 
+4.3.2.3 LEL-Based Detectability Envelope and Safety Interpretation 
+Combining dispersion physics with LEL normalization allows definition of a  detectability 
+envelope bounded by: 
+• Upper bound: 
+100% LEL → flammable mixture and unacceptable operating condition 
+• Lower bound: 
+Sensor detection threshold Cd → minimum measurable methane presence 
+ 
+Table 11: Methane leak severity Classification Based on LEL 
+Leak Level % LEL, ppm range in air Meaning 
+Safe  0 – 10 %, 0 - 5000 ppm No warning  
+ 
+ 
+ 73 
+Early Leak 10-20 %, 5,000-10,000 ppm Early warning (small/developing 
+leak) 
+Moderate Leak  20-40 %, 10,000-20,000 ppm Confirmed leak, action required 
+Severe/ Critical Leak > 40 %, > 20,000 ppm High risk condition, immediate 
+action required  
+Flammable Zone 100 %, 50,000 ppm Emergency (flammable if 
+ignition source present) 
+ 
+ 
+ 
+4.3.3  Final Design Analysis (CS Part) 
+The Computer Science final design evaluates the predictive AI detection subsystem, real -time 
+backend processing, alert classification logic, and secure cloud communication of the 
+integrated methane leak detection system. 
+The CS subsystem consists of the following functional blocks: 
+• Dataset Generation & Preprocessing 
+ • Feature Extraction Layer 
+ • Predictive AI Model (Isolation Forest) 
+ • Multi-Level Alert Classification 
+ • Backend API & Real-Time Processing 
+ • Secure Communication (HTTPS/TLS) 
+ • Firebase Firestore Integration 
+ 
+4.3.3.1 Dataset Generation & Preprocessing 
+Because real industrial methane leak datasets were unavailable, a physics -based synthetic 
+dataset was generated using the Beer–Lambert absorption model: 
+ 
+ 
+ 74 
+𝐼𝑡 = 𝐼0𝑒−𝑘𝐶𝐿 
+Absorbance is computed as: 
+𝐴 = ln (𝐼0
+𝐼𝑡
+) 
+The dataset simulates: 
+• Gradual methane concentration ramp -up 
+ • Steady leak phases  
+ • Decay behavior  
+ • Gaussian sensor noise  
+ • Baseline drift 
+Training is performed using only normal operational data to align with anomaly detection 
+methodology. This approach is consistent with Isolation Forest design principles, which model 
+normal behavior and identify deviations as anomalies (Liu, Ting, & Zhou, 2008). 
+This methodology enables predictive detection rather than reactive binary classification.  
+The synthetic methane dataset used for model training and evaluation is accessible at: 
+https://docs.google.com/spreadsheets/d/1qhrPp3iJ2479H0R0_9BQRUXQakZdTEyCy5vZgk2
+CK2w/edit?usp=sharing 
+ 
+4.3.3.2 Feature Extraction Layer 
+Predictive detection requires time-dependent feature analysis. 
+The following features are computed: 
+First derivative: 
+𝑑𝐴
+𝑑𝑡 
+Rolling mean: 
+𝜇𝑡 = 1
+𝑛 ∑ 𝐴𝑖
+𝑡
+𝑖=𝑡−𝑛
+ 
+Rolling variance: 
+ 
+ 
+ 75 
+𝜎𝑡
+2 = 1
+𝑛  ∑(𝐴𝑖 − 𝜇𝑡)2
+ 
+ 
+ 
+These features capture early drift, volatility, and instability that may precede confirmed 
+methane leaks. 
+ 
+4.3.3.3 Predictive AI Model – Isolation Forest 
+The predictive model uses Isolation Forest, an unsupervised anomaly detection algorithm 
+designed to isolate abnormal points through recursive partitioning of feature space (Liu et al., 
+2008). 
+ 
+The anomaly score is defined as: 
+𝑠(𝑥,  𝑛) = 2
+−𝐸(ℎ(𝑥))
+𝑐(𝑛)  
+Where: 
+• h(x) represents path length 
+• c(n) is a normalization factor 
+Anomalous points require fewer partitions, resulting in shorter path lengths and higher 
+anomaly scores. 
+ 
+4.3.3.4 Time Complexity Analysis 
+Training complexity: 
+𝑂(𝑡  ∙  𝑛log 𝑛) 
+Inference complexity: 
+𝑂(𝑡  log 𝑛) 
+ 
+ 
+ 76 
+Where: 
+• t = number of trees 
+• n = subsample size 
+Due to its logarithmic inference complexity, the model satisfies the real -time constraint of ≤ 2 
+seconds. In the implemented configuration, inference time is below 100 ms per window. 
+Isolation Forest was selected because: 
+• Leak events are rare (unsupervised problem) 
+ • Early-stage deviations are subtle 
+ • The algorithm is computationally efficient 
+ • It supports anomaly scoring rather than strict binary output 
+ • It is widely validated for anomaly detection tasks (Liu et al., 2008) 
+ 
+4.3.3.5 Multi-Level Alert Classification 
+Instead of binary classification, anomaly scores are mapped into operational states: 
+If: 
+𝑠(𝑥) < 𝑇1 ⇛  𝑁𝑜𝑟𝑚𝑎𝑙 
+If: 
+𝑇1 ≤ 𝑠(𝑥) < 𝑇2 ⇛  𝐸𝑎𝑟𝑙𝑦 𝑊𝑎𝑟𝑛𝑖𝑛𝑔 (𝑌𝑒𝑙𝑙𝑜𝑤) 
+If: 
+𝑠(𝑥) ≥ 𝑇2 ⇛  𝐶𝑜𝑛𝑓𝑖𝑟𝑚𝑒𝑑 𝐿𝑒𝑎𝑘 (𝑅𝑒𝑑) 
+This graded threshold approach enables predictive early warnings prior to confirmed leak 
+detection. 
+ 
+ 
+ 
+ 77 
+4.3.3.6 Backend API & Real-Time Processing 
+The backend is implemented using FastAPI (Python). It performs: 
+• Secure HTTPS request handling 
+ • Feature extraction 
+ • Isolation Forest inference 
+ • Anomaly scoring 
+ • Alert classification 
+ • Database storage 
+Server-side inference ensures centralized model control and eliminates the need for firmware 
+updates during model improvements. 
+ 
+4.3.3.7 Secure Communication Layer (HTTPS/TLS) 
+Data transmission occurs via HTTPS secured using Transport Layer Security (TLS). 
+TLS provides: 
+• Asymmetric key exchange 
+ • Session key derivation 
+ • AES-based symmetric encryption 
+ • Integrity verification 
+According to the TLS 1.3 specification (Rescorla, 2018), AES is used internally for symmetric 
+encryption after secure key negotiation. Therefore, manual AES key exchange is unnecessary, 
+as TLS handles cryptographic negotiation and encryption automatically. 
+This design satisfies system-level encryption requirements while reducing key management 
+complexity. 
+ 
+ 
+ 
+ 
+ 78 
+4.3.3.8 Firebase Firestore Integration 
+Firebase Firestore serves as the real-time cloud database. 
+The backend stores: 
+• Timestamp 
+ • Absorbance 
+ • Extracted features 
+ • Anomaly score 
+ • Alert classification 
+The Flutter mobile application subscribes to Firestore updates, enabling real-time monitoring 
+and graded alerts. 
+ 
+4.3.3.9 Final CS Design Performance Results 
+The CS subsystem satisfies the following integrated specifications: 
+• Predictive early leak detection capability 
+ • Multi-level alert classification 
+ • Real-time inference (< 2 seconds) 
+ • Secure TLS-encrypted communication 
+ • Cloud-based real-time monitoring 
+The predictive model selection aligns with established anomaly detection theory (Liu et al., 
+2008), while secure communication follows internationally standardized TLS cryptographic 
+protocols (Rescorla, 2018) . Therefore, the CS final design satisfies all applicable 
+multidisciplinary system requirements. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 79 
+Table 12: Summary of Project Constraints and Specifications Attainment in the Final 
+Design  
+ 
+ 
+Constraints and  
+Specifications  
+Off-the- Shelf  Project Specific 
+(Not Off- the- 
+Shelf) 
+Responsible Department and Location of Evidence   
+EE  PETE  ICS  
+Constraint 1:  
+Detection Threshold 
+Must comply with OSHA 
+standards 
+ 
+   Yes  Section 4.3.2.1   
+Section 4.3.1  
+Constraint 2: 
+Methane leak detection 
+must be referenced to 
+LEL safety Thresholds 
+   Yes  Section 4.3.2.3 
+Table 5   Section 4.3.1 
+  
+Constraint 3: 
+ 
+          Section 4.3.1 
+Constraint 4 : 
+ 
+           
+Constraint 5:      
+ 
+      
+Constraint 6: 
+Components must 
+tolerate up to 75C 
+without signal drift. 
+ 
+   Yes  4.3.1.1 (Laser 
+Thermal 
+Stabilization, p. 
+63–64), 4.3.1.2 
+(Optical 
+Detection, p. 64) 
+   4.3.1.1–4.3.1.2 
+(noise/drift 
+handling in 
+preprocessing) 
+preprocessing) 
+Constraint 7: 
+The system must 
+convert the 
+photodiode's analog 
+output to digital data 
+with sufficient 
+resolution and sampling 
+rate for reliable 
+methane detection and 
+transmit this data 
+   Yes  4.3.1.3 (Analog 
+Signal 
+Conditioning, p. 
+65), 4.3.1.4 
+(Embedded 
+Digitization, p. 
+65–66), 4.3.1.5 
+(Communication 
+and Electrical 
+Protection, p. 
+66) 
+   4.3.1.4 
+4.3.1.5   
+ 
+ 
+ 80 
+continuously via 
+integrated wireless 
+connectivity. 
+ 
+ 
+Specification 1:  
+The system shall detect 
+CH₄ concentrations ≥ 1% 
+LEL (≥ 500 ppm for a 
+50,000-ppm LEL 
+methane sensor) within 
+≤ 2 seconds of exposure 
+under normal operating 
+conditions.leak 
+   Yes  4.3.1.4 
+(Embedded 
+Digitization, p. 
+65–66), 4.3.1.6 
+(Final Design 
+Performance 
+Results, p. 67) 
+ 
+   4.3.1.4 + 
+4.3.1.6   
+Specification 2: 
+The IR source/filter shall 
+operate at 1650 nm 
+(near-IR) and 3.31 µm 
+(mid-IR) with bandwidth 
+≤ 0.20 µm. 
+Yes  4.2.1.3 (Laser 
+Transmission 
+Subsystem, p. 50) 
+  
+Specification 3:  
+The laser subsystem 
+shall maintain a stable 
+link over 1.0 km line-of-
+sight under clear 
+outdoor conditions 
+ Yes  4.3.1.2 (Optical 
+Detection 
+Subsystem, p. 64) 
+ 
+  
+Specification 4: 
+Packet loss shall be < 1% 
+over ≥ 1000 packets 
+Yes   4.3.1.5 
+(Communication 
+and Electrical 
+Protection, p. 
+66) 
+ 
+ 4.3.1.5 
+Specification 5:  
+The system shall sample 
+the IR methane sensor 
+at a minimum rate of 10 
+Hz to support real-time 
+concentration 
+monitoring and 
+detection within the 
+required response time. 
+ 
+ Yes  4.3.1.4 
+(Embedded 
+Digitization, p. 
+65–66) 
+ 
+ 4.3.1.4 
+ 
+ 
+ 81 
+Specification 6:  
+The system shall 
+maintain a false alarm 
+rate ≤ 1% under normal 
+operating conditions. 
+ 
+ Yes  4.2.1.6 
+(Embedded 
+Processing and 
+Methane 
+Estimation, p. 
+52), 4.3.1.6 (Final 
+Design 
+Performance 
+Results, p. 67) 
+ 
+ 4.3.1.6 
+Specification 7: 
+The system shall 
+operate within an 
+ambient temperature 
+range of −20°C to +50°C. 
+ 
+Yes   4.3.1.1 (Laser 
+Thermal 
+Stabilization, p. 
+63–64) 
+ 
+  
+Specification 8: 
+The system shall operate 
+in relative humidity up 
+to 95% non-condensing. 
+Yes   4.2.1.4 (Free-
+Space Detection 
+Region, p. 50–51) 
+ 
+  
+Specification 9: 
+The total time from 
+methane threshold 
+exceedance at the 
+sensor to alert 
+notification displayed on 
+the user application 
+shall be ≤ 10 seconds 
+under normal operating 
+conditions 
+ 
+ Yes  4.3.1.4 
+(Embedded 
+Digitization, p. 
+65–66), 4.3.1.5 
+(Communication 
+and Electrical 
+Protection, p. 66) 
+ 4.2 + 4.3.1.5 
+Specification 10: 
+The system shall detect 
+methane (CH₄) only, 
+with crosssensitivity to 
+non-methane gases 
+limited to ≤ 5% of the 
+methane response 
+ Yes  4.3.1.2 (Optical 
+Detection 
+Subsystem, p. 64) 
+ 
+  
+ 
+ 
+ 82 
+under equivalent test 
+conditions. 
+Integrated Specification 
+1: The integrated system 
+shall generate an 
+automated early alert 
+when methane 
+concentration exceeds 
+the PETE-defined 10% 
+LEL threshold within ≤ 2 
+seconds of detection. 
+ 
+   Yes  Section 4.3.1 
+(Threshold 
+definition) , 
+Section 4.3.2 
+(Alert 
+performance 
+results) 
+ 4.3.1 (threshold 
+logic) + 4.3.2 
+(alert behavior)  
+Integrated 
+Specification 2: The 
+integrated prototype 
+shall achieve ≥ 70% 
+classification accuracy 
+in distinguishing no-
+leak, gradual leak, and 
+sudden leak scenarios 
+using PETE-defined 
+safety labels. 
+   Yes  Section 4.3.1 
+(LEL-based 
+detectability and 
+safety margin 
+analysis), Section 
+4.3.2 (Final 
+design 
+performance 
+results and AI 
+classification 
+evaluation). 
+E 4.3.1 (AI model 
+description) + 
+4.3.2 
+(classification 
+results) 
+Integrated 
+Specification 3: The 
+system shall 
+continuously measure 
+methane 
+concentration at a 
+sampling rate ≥ 10 Hz 
+and convert sensor 
+output into %LEL 
+values for safety-
+based interpretation. 
+   Yes  Section 4.2 
+(System 
+Integration 
+Architecture), 
+Section 4.3.1 
+(LEL Conversion 
+Analysis) 
+ 4.2 (Integration 
+Architecture) + 
+4.3.1 (LEL 
+conversion) 
+  
+ 
+ 
+ 
+ 
+ 
+ 83 
+ 
+ 
+ 
+ 
+ 
+ 84 
+ 
+4.4 Bill of Materials  
+Table 13: Bill of Materials 
+Item Part Name Qty Description Material Source Lead Time Total 
+Cost 
+(SAR) 
+1 Pipelines 3 Pipeline sections 
+for methane test 
+rig setup 
+Steel Pipe World 
+Trading Co. – 
+Al Khobar 
+Alshamalia 
+7 days 1000 
+2 Joints 2 Pipeline 
+connection joints 
+for assembly 
+Steel Pipe World 
+Trading Co. – 
+Al Khobar 
+Alshamalia 
+7 days 500 
+3 FPL1059T – 
+1650 nm 
+Laser Diode 
+1 NIR methane-
+sensitive laser 
+transmitter 
+Semiconductor Thorlabs 7 days 
+ 
+2045 
+4 DET20C2 – 
+InGaAs 
+Detector 
+1 Infrared receiver 
+(800–1700 nm) 
+Semiconductor M4 
+Mounting 
+Holes 
+7 days 
+ 
+1935 
+5 LDM9T – 
+Laser Diode 
+Mount 
+1 Laser mount with 
+temperature 
+control 
+Aluminum/Electronics Thorlabs 7 days 
+ 
+3912 
+6 LDC202C – 
+LD Current 
+Controller 
+1 Benchtop current 
+controller 
+Electronics Thorlabs 7 days 
+ 
+4856 
+7 App 
+Deployment 
+(App Store) 
+1 Application 
+publishing service 
+Software Service Apple 
+Developer 
+Program 
+Immediate 371 
+8 Vercel 
+Storage  
+1 Cloud hosting 
+subscription 
+Cloud Service Vercel Immediate 150 
+  Grand 
+Total 
+          14769 
+ 
+ 
+4.5  Cost Analysis  
+The total estimated cost of the final methane leak detection prototype is 14,769 SAR, which 
+satisfies the project constraint of maintaining the total prototype cost below 15,000 SAR. The 
+ 
+ 
+ 85 
+cost distribution reflects a deliberate balance between sensing performance, safety 
+considerations, and financial feasibility at the laboratory prototype stage.  
+A significant portion of the budget is allocated to the optical subsystem, including the 1650 nm 
+laser diode, InGaAs photodetector, laser mount, and current controller. These components 
+represent the core detection mechanism of the system. Since methane de tection relies directly 
+on infrared absorption and precise optical stability, investing in reliable optical hardware was 
+necessary to ensure measurement accuracy, signal consistency, and safe laser operation. The 
+laser mount and current controller, althoug h relatively high in cost, provide temperature 
+stability and controlled excitation, which are essential for maintaining wavelength integrity and 
+avoiding signal drift.  
+Mechanical components, such as pipeline sections and joints, account for a smaller but essential 
+portion of the total cost. These elements enable realistic simulation of joint -level methane 
+leakage under controlled laboratory conditions. Their inclusion ensures that experimental valid 
+ation reflects practical containment-loss scenarios rather than abstract gas exposure testing. 
+The software-related costs, including application deployment and cloud hosting, represent a 
+relatively minor fraction of the total budget. However, they significantly enhance the system’s 
+functionality. The cloud platform enables remote monitoring and structured data storage, while 
+the mobile application provides real -time alerts and visualization. The AI-based classification 
+layer further improves reliability by reducing false alarms and enhancing decision support. 
+Notably, these software components increase system capability without substantially increasing 
+overall cost.  
+Overall, the cost structure demonstrates that a technically robust, multidisciplinary methane 
+detection prototype can be implemented within the defined academic budget constraints. The 
+final cost remains below the specified limit while preserving sensing accuracy, safety integrity, 
+and intelligent monitoring functionality, making the system both economically feasible and 
+technically credible.  
+ 
+ 

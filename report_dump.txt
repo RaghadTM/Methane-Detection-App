@@ -1,0 +1,4901 @@
+--- PAGE 0 ---
+KING FAHD UNIVERSITY OF PETROLEUM & MINERALS 
+ 
+Date: 19/02/2026 
+ 
+Senior Design Project II 
+Term # 252  
+Team #   F040 
+Project Title: Infrared Methane Leak Detection in 
+Pipelines with AI-Enabled Cloud Monitoring 
+Final Design Report (FDR) 
+ 
+Name & (Dept.) 
+ID # 
+Name & (Dept.) 
+ID # 
+Naflah Albarrak - 
+PETE 
+202222660 
+ 
+ 
+ 
+ 
+Hala Alsulaiman - 
+EE 
+ 
+ 
+202175210 
+Dana Aldahmash - 
+EE 
+202179870 
+Maram Alghamdi 
+- CS 
+ 
+202223040 
+Raghad Almunirawi - 
+CS 
+ 
+202182030 
+ 
+Elaf Alrabeei - CS 
+ 
+ 
+ 
+202183350 
+ 
+ 
+ 
+Team #   F040 
+
+--- PAGE 1 ---
+KING FAHD UNIVERSITY OF PETROLEUM & MINERALS 
+ 
+Date: 19/02/2026 
+Project Title: Infrared Methane Leak Detection in 
+Pipelines with AI-Enabled Cloud Monitoring 
+Final Design Report (FDR) 
+ 
+Faculty Name 
+Department 
+Role  
+Umer Zahid 
+CHE 
+Coach 
+Junaid Ur Rehman 
+EE 
+Reviewer 
+Duaa Abdelwahab Shaker 
+Abdelwahab 
+PETE 
+Reviewer 
+Khadijah Ahmad Matooq 
+AlSafwan 
+CS 
+Reviewer 
+ 
+ 
+
+--- PAGE 2 ---
+ 
+ 
+iii 
+Abstract 
+Methane leakage from pipeline systems poses significant safety, environmental, and economic 
+risks, requiring reliable and timely detection methods. This project presents the design and 
+implementation of a bench-top methane leak detection system based on infrared absorption principles. 
+Infrared light is transmitted across controlled leak regions of a pipeline section, where the presence of 
+methane is detected through attenuation of specific wavelengths caused by gas absorption. 
+A laboratory pipeline test rig with controlled methane leakage points was constructed to simulate 
+realistic leak scenarios. An infrared emitter–detector pair was installed at selected locations along the 
+pipeline to monitor variations in received signal intensity. The detected analog signal is conditioned 
+and digitized using a microcontroller, then transmitted to a cloud platform via a cellular communication 
+module for remote monitoring. 
+Artificial intelligence techniques are implemented to analyze the infrared sensor data and distinguish 
+between normal operating conditions and methane leakage events. Machine learning models are trained 
+using labeled experimental data to classify leak presence and estimate leak severity based on signal 
+patterns and temporal variations. A software application retrieves data from the cloud and provides real-
+time leak alerts, signal visualization, and event logging. 
+System performance is evaluated through controlled experiments by varying leak rates and operating 
+conditions. Key performance metrics include detection accuracy, response time, false alarm rate, and 
+communication reliability. The results demonstrate the feasibility of combining infrared sensing, 
+cellular communication, and AI-based analysis for effective methane leak detection in pipeline systems. 
+ 
+
+--- PAGE 3 ---
+ 
+ 
+iv 
+Acknowledgments 
+The project team would like to express their sincere appreciation to their project advisor and 
+supervising faculty for their guidance, technical support, and constructive feedback throughout the 
+development of this project. Their expertise and direction were essential in shaping the project’s scope, 
+methodology, and implementation. 
+The project team also acknowledges the support provided by the laboratory staff and department 
+facilities, which enabled the successful construction and testing of the experimental setup. Their 
+assistance with equipment access and safety procedures is gratefully appreciated. 
+Finally, the project team would like to thank all individuals and organizations who provided technical 
+advice, resources, or support during this work. Their contributions played an important role in the 
+completion of the project. 
+ 
+
+--- PAGE 4 ---
+ 
+ 
+v 
+AI Declaration Statement  
+Please complete the following table accurately to disclose your use of AI in the preparation of 
+this report. Declaring the use of AI will not result in any penalties. However, irrespective of 
+your AI declaration in the report, the grading rubric will be rigorously enforced, and any section 
+or content that is vague, overly general, or fails to demonstrate a clear and direct connection to 
+your project will be awarded a score of zero. This policy applies equally to both general and 
+discipline-specific components of the report. 
+ 
+Name of 
+Student 
+ID 
+Dep. 
+AI Usage 
+Declaration 
+Report Sections / 
+Purpose of AI Assistance/ Name of 
+AI tool used 
+Hala 
+Alsulaiman 
+202175210 
+  
+EE 
+ChatGPT 
+ Chapter 4 (4.2,4.6) EE part / I used AI 
+using my own ideas to enhance the 
+writing and make it stronger and to 
+create images/ ChatGPT 
+  
+  
+Naflah 
+Albarrak 
+202222660 
+PETE ChatGPT 
+Chapter 4 (4.2,4.3) PETE part / I used 
+AI using my own ideas to enhance the 
+writing and make it stronger and to 
+create images/ ChatGPT 
+  
+  
+Raghad 
+Almunirawi 
+202182030 
+CS 
+ChatGPT 
+  
+Chapter 4(4.1, 4.2) CS/ I used AI 
+using my own ideas to enhance the 
+writing and make it stronger and to 
+create images/ ChatGPT 
+  
+
+--- PAGE 5 ---
+ 
+ 
+vi 
+Elaf Alrabeei 
+202183350 
+CS 
+ChatGPT 
+Chapter 4(4.4, 4.5) CS/ I used AI 
+using my own ideas to enhance the 
+writing and make it stronger 
+  
+  
+Maram 
+Alghamdi  
+202223040 
+CS 
+ChatGPT 
+Chapter 4(4.3) CS/ I used AI using 
+my own ideas to enhance the writing 
+and make it stronger 
+Danah 
+Aldahmash 
+202179870 
+  
+EE 
+ChatGPT 
+Chapter 4 (4.1,4.3) EE part / I used AI 
+using my own ideas to enhance the 
+writing and make it stronger and to 
+create images/ ChatGPT 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Table of Contents 
+ 
+
+--- PAGE 6 ---
+ 
+ 
+vii 
+Abstract .................................................................................................................................................. iii 
+Acknowledgments ..................................................................................................................................iv 
+AI Declaration Statement ........................................................................................................................ v 
+Table of Contents .................................................................................................................................. vii 
+List of Figures .........................................................................................................................................ix 
+List of Tables ..........................................................................................................................................ix 
+List of Abbreviations ............................................................................................................................... x 
+1.1 Overview ...................................................................................................................................... 11 
+1.2 Introduction.................................................................................................................................. 11 
+1.3 Fundamental Scientific and Engineering Concepts ..................................................................... 13 
+1.3.1 Infrared Absorption Principle for Methane Detection .......................................................... 13 
+1.3.2 Infrared Sensing Configuration ............................................................................................ 15 
+1.3.3 Signal Conditioning and Data Acquisition ........................................................................... 15 
+1.3.4 Data Transmission and Cloud-Based Monitoring ................................................................ 16 
+1.3.5 Data-Driven Analysis and Artificial Intelligence ................................................................. 16 
+1.3.6 System-Level Integration ...................................................................................................... 17 
+1.3.7 Summary ............................................................................................................................... 17 
+Chapter 2 ................................................................................................................................................ 18 
+Project Definition ................................................................................................................................... 18 
+2.1 Project Summary ......................................................................................................................... 18 
+2.1.1 Project Statement .................................................................................................................. 18 
+2.1.2 Project Objectives Statement ................................................................................................ 18 
+2.1.3 Deliverables .......................................................................................................................... 18 
+2.1.4 Customer Needs .................................................................................................................... 19 
+2.1.5 Standards............................................................................................................................... 19 
+2.1.6 Constraints ............................................................................................................................ 20 
+2.1.7 Specifications ........................................................................................................................ 21 
+2.2 Detailed Project Definition Discussion ....................................................................................... 23 
+2.2.1 Discussion of Deliverables ................................................................................................... 23 
+2.2.2 Stakeholder Analysis ............................................................................................................ 24 
+2.2.3 Discussion of Constraints ..................................................................................................... 25 
+2.2.4 Discussion of Specifications and Their Thorough Justifications ......................................... 26 
+2.2.5 QFD Discussion .................................................................................................................... 27 
+2.3 Project Impact .............................................................................................................................. 28 
+2.4 Discipline-Specific Contributions ............................................................................................... 32 
+
+--- PAGE 7 ---
+ 
+ 
+viii 
+2.4.1 Team Management ............................................................................................................... 34 
+Chapter 3 ................................................................................................................................................ 35 
+Design and Development ....................................................................................................................... 35 
+3.1 Design Concept ............................................................................................................................ 36 
+3.2 Concept Selection ........................................................................................................................ 38 
+3.3 Concept Evaluation ...................................................................................................................... 41 
+3.4 Conceptual Prototype Description ............................................................................................... 46 
+Chapter 4 ................................................................................................................................................ 48 
+Final Design ........................................................................................................................................... 48 
+4.1 Overall Description ...................................................................................................................... 48 
+4.2 Detailed Design Description ........................................................................................................ 50 
+4.2.1 System Overview (EE Part) .................................................................................................. 50 
+4.2.2 System Overview (PETE part) ............................................................................................. 56 
+4.2.3 System Overview (CS part) .................................................................................................. 58 
+4.3 Final Design Analysis and Results .............................................................................................. 65 
+4.3.1 Final Design Analysis (EE Part) ........................................................................................... 65 
+4.3.2 Final Design Analysis (PETE Part) ...................................................................................... 70 
+4.3.3 Final Design Analysis (CS Part) ........................................................................................... 73 
+4.4 Bill of Material ............................................................................................................................ 84 
+4.5 Cost Analysis ............................................................................................................................... 84 
+4.6 Engineering Drawing ................................................................................................................... 86 
+Chapter 5 ................................................................................................................................................ 86 
+Conclusions and Recommendations ...................................................................................................... 86 
+5.1 Conclusion ................................................................................................................................... 86 
+5.2 Recommendations ........................................................................................................................ 87 
+References .............................................................................................................................................. 89 
+Appendix C ............................................................................................................................................ 92 
+Appendix E Point-By-Point Reply to Scope Form and CDR Presentation Reviewers' Comments ...... 93 
+Appendix F Point-By-Point Reply to CDR Report Reviewers' Comments ................................ 103 
+Appendix G Point-By-Point Reply to Final Design Presentation Reviewers' Comments .................. 109 
+ 
+
+--- PAGE 8 ---
+ 
+ 
+ix 
+List of Figures 
+ Figure 1: Beer–Lambert Infrared Absorption Principle for Methane Detection ............................... 12 
+ Figure 2: Beer–Lambert Law Representation and Parameter Definitions ........................................ 12 
+ Figure 3: Project QFD ....................................................................................................................... 26 
+ Figure 4: Multidisciplinary Prototype Summary ............................................................................... 31 
+ Figure 5: Design Concept Fan ........................................................................................................... 37 
+ Figure 6: Radar Chart Evaluation of Four Detection Methods .......................................................... 43 
+ Figure 7: Conceptual Infrared Methane Leak Detection Layout ....................................................... 45 
+ Figure 8: Infrared Methane Detection Block Diagram ...................................................................... 45 
+ Figure 9: Multidisciplinary Block Diagram ....................................................................................... 48 
+ Figure 10: EE Detailed Block Diagram of the Methane Detection System ...................................... 48 
+ Figure 11: Laboratory Test Validation for Methane Leak Detection ................................................ 55 
+ Figure 12: Backend Architecture & Data Flow ................................................................................. 57 
+ Figure 13: Final Engineering Drawing (Final Assembly) ................................................................. 84 
+ 
+List of Tables 
+Table 1: Project Constraints and Specifications ................................................................................. 20 
+Table 2: Discipline Specific Courses .................................................................................................. 31 
+Table 3: Team Management ............................................................................................................... 32 
+Table 4: SCAMPER Analysis ............................................................................................................. 35 
+Table 5: Selection Criteria and Weighting Factors for Concept Evaluation ...................................... 41 
+Table 6: Concept 1 – Infrared Methane Leak Detection ................................................................... 42 
+Table 7: Concept 2 – Distributed Fixed Sensors ............................................................................... 43 
+Table 8: Concept 3 – Rail-Guided Mobile Robot .............................................................................. 44 
+Table 9: Concept 4 – Portable Handheld Inspection Unit ................................................................. 45 
+Table 10: Pugh Matrix (Radar Chart Input) ....................................................................................... 46 
+Table 11: Methane Leak Severity Classification Based on LEL ....................................................... 76 
+Table 12: Summary of Project Constraints and Specifications Attainment in the Final Design ........ 78 
+Table 13: Bill of Material ................................................................................................................... 82 
+ 
+
+--- PAGE 9 ---
+ 
+ 
+x 
+List of Abbreviations 
+ 
+ADC  Analog-to-Digital Converter 
+ AI  Artificial Intelligence  
+AES  Advanced Encryption Standard 
+CH₄  Methane Gas  
+CO₂  Carbon Dioxide  
+CS  Computer Science  
+EE  Electrical Engineering  
+IR  Infrared  
+LEL  Lower Explosive Limit  
+MCU  Microcontroller Unit  
+NDIR  Non-Dispersive Infrared  
+NEP  Noise Equivalent Power 
+OSHA  Occupational Safety and Health Administration  
+PETE  Petroleum Engineering  
+PV  Photovoltaic  
+QFD  Quality Function Deployment 
+Rx  Receiver 
+Tx  Transmitter  
+UI  User Interface 
+ADC    Analog-to-Digital Converter 
+TLS     Transport Layer Security  
+ 
+ 
+ 
+
+--- PAGE 10 ---
+ 
+ 
+xi 
+ 
+ 
+ 
+Chapter 1  
+Background 
+1.1 Overview 
+Methane leakage from pipeline systems represents a persistent challenge in terms of 
+safety, environmental impact, and operational efficiency. Pipelines often extend across long 
+distances and operate in locations that are difficult to continuously monitor, making early leak 
+detection a complex task. Undetected methane leaks can escalate into hazardous situations, 
+contribute to greenhouse gas emissions, and result in increased operational and maintenance 
+costs. 
+Current methane detection practices rely heavily on fixed sensing units or periodic inspections, 
+which may provide limited coverage and delayed response. These approaches can struggle to 
+detect small or intermittent leaks and are often affected by environmental conditions and sensor 
+noise. As a result, there is a need for alternative detection approaches that allow controlled 
+evaluation of sensing performance and system behavior. 
+This design project addresses these challenges by offering a bench-top methane leak detection 
+system that enables controlled laboratory testing of methane sensing concepts. By focusing on 
+a laboratory-scale prototype, the project provides a safe, repeatable, and cost-effective platform 
+to study methane detection using infrared absorption principles and integrated system 
+components. 
+1.2 Introduction 
+Methane is widely used and transported in oil and gas infrastructure, making reliable 
+leak detection a critical requirement for safe operation. Even minor methane leaks can pose 
+significant safety risks due to the flammable nature of the gas and can contribute to 
+environmental harm through increased greenhouse gas emissions. The difficulty of 
+continuously monitoring extensive pipeline networks highlights the need for detection systems 
+that can identify leaks early and reliably. 
+
+--- PAGE 11 ---
+ 
+ 
+ 
+12 
+The motivation for this project arises from the limitations of existing methane detection 
+approaches, particularly in scenarios where controlled testing and system validation are 
+required. Many commercial detection systems are designed for fixed installations or field 
+deployment and are often costly, complex, and difficult to adapt for experimental evaluation. 
+As a result, there is a gap between advanced industrial solutions and laboratory-scale systems 
+that allow systematic investigation of methane sensing performance. 
+The oil and gas industry is the primary sector affected by methane leakage and stands to benefit 
+from improved detection technologies. Pipeline operators, inspection of service providers, and 
+safety and regulatory bodies all require dependable methods to identify leaks and assess system 
+integrity. In recent years, the industry has increasingly adopted data-driven and intelligent 
+monitoring approaches to enhance detection of reliability, reduce false alarms, and support 
+operational decision-making. These approaches commonly combine sensing hardware with 
+software-based data analysis, rather than relying solely on fixed threshold alarms. 
+Several methane detection solutions are currently available, including fixed gas detectors, 
+portable handheld sensors, and advanced optical systems such as laser-based and remote 
+sensing technologies. Fixed detectors provide continuous monitoring at specific locations but 
+offer limited coverage along extended pipeline segments. Handheld sensors require manual 
+inspection and may fail to detect transient or low-level leaks consistently. While advanced 
+optical systems offer high sensitivity, they are typically expensive and impractical for 
+laboratory-scale experimentation or early-stage concept validation. In addition, many existing 
+systems rely on simple threshold-based triggering, which can be sensitive to noise and 
+environmental variability. 
+To address these limitations, the proposed project integrates artificial intelligence as a 
+supportive analysis layer within a bench-top methane detection system. Rather than replacing 
+the physical sensing mechanism, AI techniques are used to analyze infrared sensor data patterns 
+and assist in distinguishing normal operating conditions from methane leakage events. This 
+data-driven approach aims to improve detection reliability and reduce false alarms caused by 
+transient disturbances or sensor noise. By combining infrared sensing, embedded processing, 
+cloud-based data handling, and AI-assisted analysis, the project aligns with current industry 
+trends toward intelligent monitoring systems while maintaining a controlled and experimentally 
+verifiable laboratory scope. 
+
+--- PAGE 12 ---
+ 
+ 
+ 
+13 
+1.3 Fundamental Scientific and Engineering Concepts 
+This project is based on a combination of fundamental scientific principles and core 
+engineering concepts drawn from petroleum engineering, electrical engineering, and computer 
+science. These concepts collectively enable the detection of methane leaks, the conversion of 
+physical phenomena into measurable electrical signals, and the analysis of sensor data within a 
+controlled laboratory environment. 
+1.3.1  Infrared Absorption Principle for Methane Detection 
+The fundamental scientific principle underlying the proposed methane detection 
+system is infrared (IR) absorption. Methane molecules absorb infrared radiation at specific 
+wavelengths due to molecular vibrational modes. When infrared light propagates through a 
+region containing methane gas, a portion of the incident radiation is absorbed, resulting in a 
+reduction in the transmitted light intensity. 
+This absorption behavior is described by the Beer–Lambert principle, which relates the amount 
+of absorbed radiation to the gas concentration and the optical path length. The conceptual 
+behavior of this relationship is illustrated in Figure 1, where infrared radiation emitted from a 
+light source pass through a gas-filled optical path of length ￼L, and the transmitted light 
+intensity decreases due to absorption by methane molecules. The mathematical representation 
+and parameter definitions of this relationship are shown in Figure 2, where the absorbance 
+depends on the molar absorption coefficient, gas concentration, and optical path length. 
+
+--- PAGE 13 ---
+ 
+ 
+ 
+14 
+ 
+Figure 1: Beer–Lambert infrared absorption principle for methane detection 
+ 
+ 
+Figure 2: Beer–Lambert law representation and parameter definitions 
+In the context of this project, the Beer–Lambert principle is not used to calculate precise 
+methane concentration values. Instead, it provides a physical basis for understanding how the 
+presence of methane causes measurable attenuation of infrared radiation. The system relies on 
+detecting relative changes in transmitted signal intensity, which is sufficient for identifying leak 
+events under controlled laboratory conditions. 
+From a petroleum engineering perspective, this principle supports the analysis of methane 
+behavior in pipeline leak scenarios, where gas presence within the optical path indicates 
+
+--- PAGE 14 ---
+ 
+ 
+ 
+15 
+leakage. Controlled leak simulation allows systematic evaluation of how methane accumulation 
+affects optical transmission and detection reliability. 
+ 
+1.3.2  Infrared Sensing Configuration 
+To implement the infrared absorption principle, the system uses an infrared emitter–
+detector pair positioned across selected regions of the pipeline test section. The emitter 
+generates continuous infrared radiation directed toward the detector. Under normal operating 
+conditions, the detector receives a stable signal corresponding to unobstructed transmission. 
+When methane leaks into the optical path, partial absorption of infrared radiation occurs, 
+leading to a reduction in the detected signal intensity. This configuration represents a non-
+dispersive infrared sensing approach, which is suitable for bench-top experimentation due to 
+its simplicity, robustness, and repeatability. Mechanical alignment, optical shielding, and fixed 
+geometry are used to minimize the influence of ambient light and environmental disturbances. 
+ 
+1.3.3  Signal Conditioning and Data Acquisition 
+From an electrical engineering standpoint, the infrared detector produces a low-
+amplitude analog electrical signal that is susceptible to noise and interference. To ensure 
+reliable measurement, signal conditioning is applied before digital processing. This includes 
+amplification to increase signal magnitude and filtering to suppress unwanted noise 
+components. 
+The conditioned signal is then digitized using an analog-to-digital converter (ADC) integrated 
+within a microcontroller. Digitization enables consistent sampling, numerical representation of 
+the sensor output, and time-stamping of measurements. These steps are essential for reliable 
+data transmission and subsequent software-based analysis. 
+In the final system design, digitized measurements are structured into time-stamped data frames 
+and transmitted securely to the backend using HTTPS, ensuring encrypted communication 
+between the embedded system and cloud infrastructure. 
+
+--- PAGE 15 ---
+ 
+ 
+ 
+16 
+ The microcontroller functions as the central embedded system, managing sensor sampling, 
+local data buffering for time-series continuity, and secure communication with external 
+platforms. 
+ 
+ 
+1.3.4  Data Transmission and Cloud-Based Monitoring 
+ Communication engineering concepts are applied through secure HTTPS-based data 
+transmission from the embedded system to the backend cloud platform.  All transmitted data is 
+secured using Transport Layer Security (TLS), which performs authenticated key exchange and 
+encrypted communication using AES-based symmetric encryption after session establishment. 
+This architecture reflects modern monitoring system designs used in industrial and research 
+applications. 
+ The FastAPI backend and cloud database serves as an intermediate layer that allows sensor 
+data to be accessed by higher-level software applications without direct physical interaction 
+with the hardware. 
+ 
+1.3.5  Data-Driven Analysis and Artificial Intelligence 
+From a computer science perspective, the project employs data-driven analysis 
+techniques to support methane leak detection. Rather than relying solely on fixed threshold 
+values, sensor data is analyzed to identify patterns associated with normal operation and leak 
+events. Features such as signal magnitude variation and temporal behavior are extracted from 
+the infrared measurements. 
+ An unsupervised anomaly detection approach based on the Isolation Forest algorithm is 
+applied to model normal operating behavior and detect deviations indicative of methane 
+leakage. Instead of relying on labeled leak data, the model learns baseline signal patterns and 
+assigns an anomaly score to new observations based on structural deviation in the feature space. 
+The role of artificial intelligence in this project is  to provide predictive anomaly scoring and 
+
+--- PAGE 16 ---
+ 
+ 
+ 
+17 
+graded decision support, complementing the physical sensing mechanism rather than replacing 
+it. 
+ 
+ 
+1.3.6  System-Level Integration 
+The integration of infrared sensing, signal conditioning, embedded processing, wireless 
+communication, and data-driven analysis forms a complete methane leak detection system. 
+Each subsystem performs a specific function, and overall performance depends on their 
+coordinated operation. Real-time inference within the backend ensures that anomaly detection 
+results are generated within the defined system response constraint, while secure transmission 
+and structured data handling maintain reliability across subsystem boundaries.   From a systems 
+engineering perspective, the project emphasizes integration and experimental validation rather 
+than component-level optimization. 
+By combining petroleum engineering context, electrical sensing hardware, and computer 
+science–based data analysis, the project provides a multidisciplinary platform for evaluating 
+methane leak detection behavior, response time, and reliability under controlled laboratory 
+conditions. 
+ 
+1.3.7  Summary 
+The application of infrared absorption physics, basic signal processing, embedded 
+system design, wireless communication, and data-driven predictive anomaly detection forms 
+the scientific and engineering foundation of the proposed methane detection system. These 
+concepts collectively enable the implementation and evaluation of a bench-top prototype that 
+supports controlled testing, performance assessment, and future scalability while remaining 
+aligned with academic design requirements and project scope. 
+
+--- PAGE 17 ---
+ 
+ 
+ 
+18 
+Chapter 2  
+Project Definition 
+This chapter defines the proposed methane leak detection project by outlining its scope, 
+requirements, and design boundaries. Section 2.1 presents a concise project summary, including 
+the project statement, objectives, deliverables, customer needs, applicable standards, 
+constraints, and technical specifications. Section 2.2 provides a detailed discussion and 
+justification of these elements to ensure clear alignment between customer requirements, 
+system design decisions, and measurable performance targets. Section 2.3 describes the 
+expected project impact, highlighting the safety, environmental, and operational value of the 
+proposed system and its relevance to industry needs. Section 2.4 outlines the discipline-specific 
+contributions and project management approach, clarifying the responsibilities of PETE, EE, 
+and CS team members and how their work integrates to deliver the complete system. Together, 
+these sections establish a structured foundation for the subsequent design and development 
+phases of the project.  
+ 
+2.1 Project Summary 
+2.1.1  Project Statement 
+The project aims to design and implement a bench-top methane leak detection system based on 
+infrared absorption and AI anomaly to enable reliable detection and evaluation of methane leaks 
+under controlled laboratory conditions. 
+2.1.2  Project Objectives Statement 
+This project aims to develop a laboratory-scale methane detection system that senses methane-
+induced infrared signal attenuation, processes and transmits the data to a cloud platform, and 
+presents leak information through a software application for analysis and evaluation. 
+2.1.3  Deliverables 
+The deliverables of this project include the following: 
+
+--- PAGE 18 ---
+ 
+ 
+ 
+19 
+1. A benchtop pipeline test rig with controlled methane leak simulation. 
+2. An infrared emitter–detector sensing subsystem integrated with signal conditioning and 
+a microcontroller. 
+3. A wireless communication and cloud data pipeline for remote data transmission and 
+storage. 
+4. A software application that displays methane detection status, signal visualization, and 
+event logs. 
+5. Documented system testing results in demonstrating detection performance under 
+controlled laboratory conditions. 
+ 
+ 
+ 
+2.1.4  Customer Needs 
+The customer needs identified for this project are as follows: 
+1. The system must detect methane leaks reliably under controlled conditions. 
+2. The system must support safe laboratory testing without requiring field deployment. 
+3. The system must provide clear and interpretable leak indication to the user. 
+4. The system must reduce false alarms caused by noise or transient effects. 
+5. The system must support future scalability and adaptation to more advanced 
+monitoring solutions. 
+ 
+2.1.5  Standards 
+The design and operation of the proposed methane leak detection system follow a 
+limited set of safety, laboratory, communication, and data security standards that are directly 
+relevant to the project constraints and specifications. These standards are considered to ensure 
+safe laboratory testing, reliable system operation, and secure data transmission: 
+
+--- PAGE 19 ---
+ 
+ 
+ 
+20 
+• 
+OSHA (Occupational Safety and Health Administration) standards related to the 
+handling of flammable gases and safe operation of electrical equipment during 
+laboratory testing. 
+• 
+Lower Explosive Limit (LEL) safety guidelines for methane, used to define safe 
+detection thresholds below hazardous concentration levels. 
+• 
+Advanced Encryption Standard (AES-128) for securing transmitted sensor data. 
+• 
+KFUPM laboratory safety regulations governing calibration of gases, experimental 
+procedures, and laboratory operation. 
+ 
+2.1.6  Constraints 
+The proposed methane leak detection system is subject to the following constraints, 
+which define the boundaries and limitations within which the design, implementation, and 
+testing must be conducted: 
+1. The total cost of the prototype shall not exceed 15,000 SAR. 
+2. System sensitivity shall be limited to ppm-level methane detection, prioritizing low 
+power consumption and system simplicity over ppb-level sensitivity. 
+3. Methane measurement accuracy may be affected by environmental factors, including 
+humidity, carbon dioxide (CO₂), and other hydrocarbons. 
+4. Optical alignment between the infrared source and detector must be maintained to 
+ensure reliable methane detection. 
+5. The system shall operate under outdoor pipeline conditions, including 0–60 °C 
+temperature, up to 95% relative humidity (non-condensing), and dust exposure. 
+6. Calibration of gases and testing procedures must comply with KFUPM laboratory 
+requirements. 
+7. System operation must comply with OSHA safety standards, particularly those related 
+to flammable gas handling and laboratory electrical safety. 
+8. Infrared source of intensity drifts, and ambient infrared noise may affect long-term 
+signal stability. 
+
+--- PAGE 20 ---
+ 
+ 
+ 
+21 
+9. Leak detection time depends on the methane plume reaching the optical sensing path, 
+which may introduce variability in detection response. 
+10. Cellular network availability and latency may affect the timing of data transmission 
+and application notifications. 
+ 
+2.1.7  Specifications 
+The proposed methane leak detection system shall satisfy the following technical and 
+functional specifications. These specifications are stated as measurable and verifiable 
+performance requirements and are directly derived from the project constraints and objectives: 
+1. The system shall detect methane (CH₄) only as the target gas. 
+2. Methane detection shall be based on open-path infrared absorption using a fixed 
+emitter–detector (NDIR / opto-pair) configuration. 
+3. The infrared source shall operate at methane absorption wavelengths within 1.63–1.69 
+µm (near-infrared) or 3.2–3.4 µm (mid-infrared). 
+4. The optical path length between the infrared emitter and detector shall be fixed and 
+known during operation. 
+5. The methane detection threshold shall be set below 1% of the Lower Explosive Limit 
+(LEL). 
+6. Local methane leak detection at the microcontroller level shall occur within ≤ 2 seconds 
+of sensing. 
+7. End-to-end alert delivery to the user application shall occur within ≤ 10 seconds. 
+8. The infrared signal shall be sampled at a rate of ≥ 10 Hz. 
+9. Narrowband optical filtering shall be used to isolate methane-sensitive wavelengths 
+with a defined passband matching the selected absorption range. 
+10. AI-based leak classification shall achieve a minimum accuracy of ≥ 70% in 
+distinguishing true leak events from noise. 
+11. Methane monitoring shall be performed at fixed sensing locations along the pipeline. 
+12. Sensor data shall be transmitted to the cloud using cellular communication. 
+
+--- PAGE 21 ---
+ 
+ 
+ 
+22 
+13. Data transmission reliability shall maintain a packet loss rate of < 1%. 
+14. The system shall provide methane leak alerts and system status information through a 
+mobile and/or desktop application. 
+15. Total system power consumption shall not exceed 5 W during operation. 
+16. The system shall support at least 6 hours of continuous operation using battery power. 
+17. All transmitted data shall be secured using AES-128 encryption. 
+ 
+ 
+Table 1:  Project Constraints and Specifications 
+Constraints and 
+Specifications 
+Off-
+the- 
+Shelf 
+Project 
+Specific 
+(Not Off- 
+the-Shelf) 
+Responsible Department 
+ 
+EE 
+PETE 
+CS 
+ 
+ 
+Constraint 1 
+  
+✓ 
+✓ 
+✓ 
+✓ 
+ 
+Constraint 2 
+  
+✓ 
+✓ 
+✓ 
+  
+ 
+Constraint 3 
+  
+✓ 
+✓ 
+✓ 
+✓ 
+ 
+Constraint 4 
+  
+✓ 
+✓ 
+  
+  
+ 
+Constraint 5 
+ 
+✓ 
+✓ 
+✓ 
+ 
+ 
+Constraint 6 
+ 
+✓ 
+✓ 
+✓ 
+✓ 
+ 
+Constraint 7 
+ 
+✓ 
+✓ 
+✓ 
+ 
+ 
+Constraint 8 
+ 
+✓ 
+✓ 
+ 
+✓ 
+ 
+Constraint 9 
+ 
+✓ 
+ 
+✓ 
+ 
+ 
+Constraint 10 
+ 
+✓ 
+✓ 
+ 
+✓ 
+ 
+Specification 1 
+  
+✓ 
+✓ 
+✓ 
+  
+ 
+Specification 2 
+✓ 
+  
+✓ 
+✓ 
+  
+ 
+Specification 3 
+✓ 
+  
+✓ 
+✓ 
+  
+ 
+Specification 4 
+  
+✓ 
+✓ 
+✓ 
+  
+ 
+Specification 5 
+ 
+✓ 
+✓ 
+✓ 
+ 
+ 
+
+--- PAGE 22 ---
+ 
+ 
+ 
+23 
+Specification 6 
+ 
+✓ 
+✓ 
+ 
+ 
+ 
+Specification 7 
+ 
+✓ 
+✓ 
+ 
+✓ 
+ 
+Specification 8 
+ 
+✓ 
+✓ 
+ 
+ 
+ 
+Specification 9 
+✓ 
+ 
+✓ 
+ 
+ 
+ 
+Specification 10 
+ 
+✓ 
+ 
+ 
+✓ 
+ 
+Specification 11 
+✓ 
+ 
+✓ 
+✓ 
+ 
+ 
+Specification 12 
+✓ 
+ 
+✓ 
+ 
+✓ 
+ 
+Specification 13 
+ 
+✓ 
+ 
+ 
+✓ 
+ 
+Specification 14 
+ 
+✓ 
+ 
+ 
+✓ 
+ 
+Specification 15 
+ 
+✓ 
+✓ 
+ 
+ 
+ 
+Specification 16 
+ 
+✓ 
+✓ 
+ 
+ 
+ 
+Specification 17 
+ 
+✓ 
+ 
+ 
+✓ 
+ 
+Integrated Specification 
+1 
+  
+✓ 
+✓ 
+  
+✓ 
+ 
+Integrated Specification 
+2 
+  
+✓ 
+✓ 
+  
+✓ 
+ 
+Integrated Specification 
+3 
+  
+✓ 
+  
+  
+✓ 
+ 
+ 
+ 
+ 
+2.2 Detailed Project Definition Discussion 
+2.2.1  Discussion of Deliverables 
+The primary deliverables of this project are designed to demonstrate the feasibility of 
+integrating an infrared-based methane sensing system with data-driven analysis for early leak 
+detection. The deliverables focus on developing a functional prototype, generating 
+experimentally validated data, and providing a clear evaluation of system performance within 
+a controlled laboratory environment. The first major deliverable is a functional infrared 
+methane sensing prototype based on an open-path infrared absorption principle. This prototype 
+
+--- PAGE 23 ---
+ 
+ 
+ 
+24 
+includes an infrared source, an optical detector, signal conditioning circuitry, and a 
+microcontroller for data acquisition. The sensing unit is capable of continuously measuring 
+methane concentration in parts per million (ppm) and transmitting these measurements for 
+further processing. This deliverable validates hardware integration and ensures reliable 
+methane detection under laboratory conditions. The second deliverable is a time-series methane 
+dataset obtained through controlled laboratory experiments. Methane leak scenarios, including 
+no-leak, slow-leak, and sudden-leak conditions, are simulated in a safe and controlled manner. 
+The infrared sensor records methane concentration at fixed time intervals, producing structured 
+datasets with timestamps. These datasets serve as the foundation for subsequent data analysis 
+and are essential for evaluating detection performance beyond traditional threshold-based 
+approaches. The third deliverable is an AI-based leak detection and classification module 
+developed using the collected sensor data. This module processes methane concentration trends 
+over time to distinguish between normal background variations and abnormal leak patterns. 
+The AI component is designed to enhance early detection capability while operating alongside 
+conventional safety thresholds, ensuring that system reliability and safety are preserved. 
+Performance metrics such as detection accuracy and response time are used to assess the 
+effectiveness of this deliverable. The fourth deliverable is a real-time monitoring and alert 
+output, which presents sensor readings and AI-based decisions to the user. This includes live 
+visualization of methane concentration, system status indicators, and warning notifications 
+when abnormal behavior is detected. The output demonstrates how the proposed system can 
+support operators in identifying potential leaks earlier and more reliably than traditional fixed-
+threshold systems. Collectively, these deliverables demonstrate a complete and integrated 
+system that combines infrared methane sensing with intelligent data interpretation, fulfilling 
+the project objectives. 
+2.2.2  Stakeholder Analysis 
+2.2.2.1 Stakeholder list and prioritization  
+The primary stakeholder of this project is oil and gas operating companies responsible 
+for pipeline safety and methane monitoring. These organizations are the direct users of the 
+proposed system and have the highest influence on design requirements related to detection 
+accuracy, reliability, and response time. Secondary stakeholders include safety and regulatory 
+authorities, whose interest lies in ensuring compliance with occupational and environmental 
+standards. Maintenance and inspection personnel are also key stakeholders, as they rely on clear 
+
+--- PAGE 24 ---
+ 
+ 
+ 
+25 
+and reliable system outputs to support timely inspection and repair activities. Additional 
+indirect stakeholders include environmental agencies and nearby communities, who are 
+affected by methane emissions and overall pipeline safety. Academic supervisors and project 
+sponsors are also stakeholders, influencing project scope, feasibility, and adherence to 
+academic and ethical standards. 
+2.2.2.2 Customer Needs and Requirements 
+The customer for this project is the oil and gas operating company, which requires early 
+and reliable methane leak detection to enhance safety and reduce operational risks. Accurate 
+and stable methane measurements are essential to minimize false alarms and ensure dependable 
+monitoring under normal operating conditions. The customer also requires timely alerts and 
+clear system outputs to support fast decision-making during potential leak events. Operational 
+simplicity, low maintenance, and compliance with safety and regulatory standards are 
+additional key requirements. These customer needs directly guide the system specifications and 
+design choices discussed in later sections. 
+2.2.3  Discussion of Constraints 
+The design and implementation of the proposed infrared-based methane detection 
+system are subject to several constraints that influence system performance, feasibility, and 
+scope. These constraints were carefully considered to ensure that the project remains realistic 
+and achievable within undergraduate laboratory and resource limitations. One of the primary 
+constraints is budget, as the total prototype cost must remain within the allocated limit (15000 
+SAR). This constraint affects component selection, sensor type, and communication hardware, 
+requiring the use of commercially available infrared sensing modules rather than custom-built 
+optical systems. Time constraints also play a significant role, as the project must be completed 
+within a single academic term. This limits the complexity of system development, experimental 
+testing, and data collection, and necessitates a focused and well-defined project scope. There 
+are also technical and physical constraints associated with infrared methane sensing. 
+Measurement accuracy depends on maintaining proper optical alignment and sufficient 
+methane exposure within the sensing path. Environmental factors such as humidity, ambient 
+infrared noise, and airflow may influence sensor readings and introduce variability in the 
+collected data. Safety and regulatory constraints further affect the project's design. All methane 
+testing must be conducted at safe concentrations and in compliance with laboratory safety 
+regulations and occupational safety standards. These constraints limit the maximum methane 
+
+--- PAGE 25 ---
+ 
+ 
+ 
+26 
+levels that can be tested and require controlled experimental procedures. Finally, 
+communication and power constraints influence system operation, as data transmission 
+reliability and power consumption must remain within specified limits. Network availability 
+and latency may affect alert delivery timing, which is considered in system performance 
+evaluation. Overall, these constraints guide the design decisions and ensure that the proposed 
+system balances performance, safety, cost, and feasibility while meeting project objectives. 
+ 
+2.2.4  Discussion of Specifications and Their Thorough Justifications 
+The project specifications were defined to ensure that the proposed infrared-based 
+methane detection system meets customer needs while remaining feasible within the identified 
+constraints. Each specification is measurable and directly supports the project objectives of 
+early leak detection, reliability, and safe operation. The system is specified to detect methane 
+(CH₄) only, as methane is the primary gas of concern in pipeline leakage scenarios. Detection 
+is based on open-path infrared absorption (NDIR) at methane-specific wavelengths, which is 
+justified by the need for high selectivity, low drift, and long-term stability compared to non-
+optical sensing methods. A detection threshold below 1% of the Lower Explosive Limit (LEL) 
+is specified to enable early warning well before hazardous conditions occur. This specification 
+directly addresses the customer’s requirement for enhanced safety and proactive leak 
+identification. To support timely response, the system is required to perform local leak detection 
+within two seconds and deliver alerts to the user within a defined response time, ensuring 
+actionable information is available promptly. The sampling rate of the infrared detector is 
+specified to be sufficient to capture transient methane leaks, which is essential for 
+distinguishing real leak events from background fluctuations. Additionally, narrowband optical 
+filtering is required to isolate methane-sensitive wavelengths and reduce interference from 
+ambient infrared sources, improving measurement accuracy. Power-related specifications, 
+including low total power consumption and battery-supported operation, are justified by the 
+need for continuous monitoring without frequent maintenance or power interruption. 
+Communication specifications, such as reliable data transmission and secure data handling, 
+support the customer’s requirement for dependable system operation and data integrity. 
+Overall, the selected specifications balance performance, safety, and practicality. They are 
+directly derived from customer needs and project constraints and ensure that the system 
+achieves its intended functionality. 
+
+--- PAGE 26 ---
+ 
+ 
+ 
+27 
+2.2.5  QFD Discussion  
+The Quality Function Deployment (QFD) was used to systematically translate 
+customer needs (WHATs) into measurable engineering specifications (HOWs) for the proposed 
+fixed infrared methane detection system with AI-based anomaly detection. High-priority 
+customer needs such as safety, time efficiency, and minimal false alarms show strong 
+relationships with technical specifications including methane detection threshold, alert 
+response time, end-to-end alert delivery, and AI classification accuracy, reflecting the 
+importance of early and reliable leak detection. Ease of monitoring is strongly linked to user 
+interface clarity and supported by reliable communication and timely alert delivery. Several 
+meaningful trade-offs were identified in the roof correlation of the QFD. Improving alert 
+response time and wireless reliability can increase power consumption, which negatively 
+affects battery operating time, requiring a balance between fast detection and long-term 
+operation. Increasing data security through encryption improves data integrity but may 
+introduce minor delays in end-to-end alert delivery. A strong positive synergy exists between 
+power consumption and battery life, while improved optical wavelength selectivity positively 
+supports AI classification accuracy by enhancing signal quality. Competitor analysis shows that 
+traditional non-optical fixed gas detectors perform well in basic safety and continuous 
+monitoring but score lower in early detection and false-alarm reduction, while conventional 
+infrared detectors provide stable measurements but rely on threshold-based alarms without 
+intelligent analysis. In contrast, the proposed system combines infrared sensing with AI to 
+improve early detection and decision support. Target and threshold values, such as detection 
+below 1% LEL, alert delivery within seconds, and AI accuracy ≥70%, were selected to balance 
+safety requirements, performance, and feasibility within prototype constraints rather than full 
+industrial optimization. 
+
+--- PAGE 27 ---
+ 
+ 
+ 
+28 
+ 
+Figure 3: Project QFD 
+2.3   Project Impact 
+Economic Perspective: 
+The proposed infrared-based methane detection system has a positive economic 
+impact by supporting early identification of methane leaks and reducing financial 
+losses associated with undetected gas emissions. Methane leaks can result in direct 
+product loss, increased operational costs, equipment damage, and unplanned 
+shutdowns. In severe cases, delayed detection may lead to costly emergency 
+response actions, environmental penalties, and extended downtime. By enabling 
+
+--- PAGE 28 ---
+ 
+ 
+ 
+29 
+earlier detection through stable infrared sensing and intelligent data analysis, the 
+proposed system allows operators to intervene before leaks escalate into major 
+failures, thereby reducing repair, recovery, and shutdown-related costs.  From a 
+maintenance perspective, early identification of abnormal methane behavior supports a 
+shift from reactive maintenance to condition-based maintenance. Instead of responding 
+only after alarms or failures occur, operators can plan inspections and corrective actions 
+based on observed trends in methane concentration. This approach improves maintenance 
+scheduling, reduces unnecessary site visits, and minimizes labor and operational 
+disruptions. Early intervention also helps prevent secondary damage to pipeline 
+components, valves, and surrounding equipment, which can significantly increase repair 
+costs if leaks are left unaddressed. In addition, the use of infrared sensing technology 
+improves measurement stability and long-term reliability by minimizing sensor drift and 
+poisoning effects commonly associated with non-optical sensors. Improved reliability 
+reduces false alarms and unnecessary shutdowns, which are often expensive and disruptive 
+to operations. More accurate detection also ensures that maintenance resources are directed 
+toward actual leak events rather than false positives. Overall, the proposed system 
+contributes to improved asset integrity management, reduced methane losses, and lower 
+operational and maintenance costs, resulting in measurable economic benefits for oil and 
+gas operators. 
+ 
+Societal Perspective: 
+The proposed infrared-based methane detection system has a positive societal impact 
+by enhancing safety in environments where methane pipelines and gas facilities operate, 
+particularly in proximity to workers and surrounding communities. Methane leaks pose 
+serious hazards, including fire and explosion risks, which can lead to injuries, loss of life, 
+and damage to nearby infrastructure. By supporting early identification of abnormal 
+methane behavior, the proposed system reduces the likelihood of such incidents and 
+contributes to safer operating conditions. For workers and maintenance personnel, reliable 
+methane monitoring improves situational awareness and reduces exposure to hazardous 
+conditions. Early warnings allow operators to take preventive actions before methane 
+concentrations reach dangerous levels, thereby lowering the risk of emergency situations. 
+Clear system outputs and alerts also support faster and more informed decision-making, 
+which is critical during abnormal operating conditions. This contributes to safer work 
+
+--- PAGE 29 ---
+ 
+ 
+ 
+30 
+environments and helps reduce occupational health and safety risks. At a broader societal 
+level, improved methane detection supports public confidence in energy infrastructure and 
+industrial operations. Communities located near pipelines or processing facilities are 
+increasingly concerned about safety and environmental risks associated with energy 
+production. Demonstrating the use of reliable monitoring technologies helps address these 
+concerns and promotes trust between operators and the public. Furthermore, the project 
+aligns with societal expectations for responsible engineering practices that prioritize safety, 
+risk prevention, and transparency. By focusing on early detection rather than emergency 
+response alone, the proposed system supports proactive safety management. This approach 
+contributes to the overall well-being of workers, nearby communities, and emergency 
+response teams by reducing the likelihood and severity of hazardous incidents. 
+ 
+Environmental Perspective: 
+Methane is a potent greenhouse gas with a significantly higher global warming 
+potential than carbon dioxide over shorter time periods. As a result, uncontrolled 
+methane leaks contribute substantially to climate change and environmental 
+degradation. The proposed infrared-based methane detection system has a positive 
+environmental impact by enabling earlier identification of leaks and reducing 
+unnecessary methane emissions into the atmosphere. Infrared sensing technology 
+provides accurate and selective methane measurement, allowing small concentration 
+changes to be detected before leaks become large or persistent. When combined with data-
+driven analysis, the system improves the likelihood of identifying abnormal emission 
+patterns that may not trigger traditional threshold-based alarms. Early detection enables 
+faster intervention, reducing the duration and magnitude of methane release and limiting 
+its environmental impact. Although the project is implemented at a laboratory scale, it 
+demonstrates principles that are directly applicable to real-world emission reduction efforts. 
+Improved monitoring supports better methane management practices, which are 
+increasingly emphasized by environmental regulations and global initiatives aimed at 
+reducing greenhouse gas emissions from the oil and gas sectors. By minimizing methane 
+losses, the system contributes to more sustainable energy production and improved 
+environmental performance. In addition, reducing methane emissions has secondary 
+environmental benefits, such as improved air quality and reduced formation of ground-level 
+ozone. Overall, the proposed system highlights the environmental advantages of integrating 
+
+--- PAGE 30 ---
+ 
+ 
+ 
+31 
+advanced sensing technologies with intelligent data analysis and supports broader efforts 
+to mitigate climate-related impacts associated with methane emissions. 
+ 
+Ethical Concerns (Multidisciplinary Perspective): 
+ From the Petroleum Engineering (PETE) perspective, the primary ethical concern is 
+ensuring the safety of personnel, facilities, and surrounding communities by minimizing 
+the risks associated with methane leaks. Methane is a flammable gas and potent greenhouse 
+gas, and failure to detect leaks early can lead to explosions, environmental harm, and 
+regulatory violations. PETE ethical responsibility focuses on safe operations, 
+environmental stewardship, and prevention of hydrocarbon losses. From the Electrical 
+Engineering (EE) perspective, ethical concerns center on system reliability, sensor 
+accuracy, and safe hardware operation. Incorrect electrical design, poor signal integrity, or 
+unreliable power systems could lead to false alarms or missed detections, potentially 
+endangering lives. EE ethics require ensuring robust hardware integration, safe electrical 
+practices, and dependable system performance. From the Computer Science (CS) 
+perspective, ethical concerns involve responsible use of data-driven analysis and 
+automation. Over-reliance on AI outputs without transparency or human oversight may 
+lead to unsafe decisions. There is also an ethical obligation to ensure data integrity, avoid 
+misleading classifications, and clearly communicate system limitations. 
+ 
+NSPE Code of Ethics Application: 
+ The project adheres to the NSPE Code of Ethics, particularly the principle that 
+engineers must “hold paramount the safety, health, and welfare of the public.” 
+•   PETE contributes by prioritizing leak prevention and environmental protection. 
+•   EE ensures safe and reliable sensor operation and electrical design. 
+• CS ensures that data processing and AI models are used responsibly and transparently. 
+The team also follows the NSPE requirement to perform work only within areas of 
+competence and to present results honestly. The system is clearly identified as a laboratory-
+scale prototype and not an industrially certified safety system. 
+ 
+Stakeholders and Ranking: 
+The highest-priority stakeholders are workers and operators, whose safety depends on 
+reliable methane detection. Second are nearby communities that are affected by potential 
+leaks or accidents. Third are oil and gas operating companies, responsible for safe 
+
+--- PAGE 31 ---
+ 
+ 
+ 
+32 
+operations and compliance. Additional stakeholders include regulatory authorities, 
+environmental agencies, and maintenance personnel, who rely on accurate data for 
+enforcement and decision-making. 
+ 
+Proposed Ethical Action and Resolution: 
+ To address these ethical concerns, the system is designed as a decision-support tool, 
+not a replacement for existing safety systems. PETE ensures conservative safety thresholds 
+remain active, EE ensures hardware reliability and electrical safety, and CS ensures AI 
+outputs are interpretable and used with human oversight. All testing is conducted under 
+safe laboratory conditions, and system limitations are clearly documented to ensure ethical 
+and professional responsibility across all disciplines. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+2.4 Discipline-Specific Contributions 
+ 
+
+--- PAGE 32 ---
+ 
+ 
+ 
+33 
+ 
+Figure 4: Multidisciplinary Prototype Summary 
+Table 2: Discipline Specific Courses 
+No. 
+Discipline 
+Courses  
+Application Parts: Blocks (mandatory) 
+and arrows (if applicable) 
+1.  
+CS 
+ 
+SWE463: Mobile 
+Application 
+Development 
+Monitoring Application → Real-time 
+alerts, signal visualization, and event 
+logging 
+2.  
+  PETE 
+CHE204, PETE202 
+PETE403, 
+CHEM101 
+Pipeline & Leak Modeling → Methane 
+Release Scenarios → Gas Concentration 
+Profiles → Sensor Calibration Inputs 
+ 
+3.  
+EE 
+ 
+EE 203 & 303 , EE 
+340, EE  370, EE 
+400 
+IR Transmitter (Tx) → Optical Path → 
+IR Receiver (Photodiode) → Signal 
+Conditioning (TIA & Filtering) → ADC 
+(Microcontroller) 
+ 
+4.  
+EE 
+EE 203 & 303 , EE 
+340, EE  370, EE 
+400 
+Microcontroller → Local Processing → 
+Cellular Communication Module → 
+Cloud Data Uplink 
+5.  
+CS 
+ICS474: Big Data 
+Analytics 
+ 
+Cloud Platform → Data storage, stream 
+processing, and historical analysis 
+Cloud → AI/ML Analytics 
+
+--- PAGE 33 ---
+ 
+ 
+ 
+34 
+6.  
+CS 
+ICS381: Principles 
+of Artificial 
+Intelligence 
+AI/ML Analytics→ Leak detection and 
+severity estimation 
+Cloud Platform → AI/ML  
+ 
+ 
+ 
+2.4.1 Team Management 
+ 
+Table 3: Team Management 
+No
+. 
+Studen
+t 
+Name 
+Majo
+r 
+Main Tasks 
+ 
+ 
+ 
+Constraints 
+Specs. 
+Integrated 
+Specs. 
+Block
+s 
+Arrow
+s 
+1.  Hala 
+EE 
+Sensor noise, 
+stable power, 
+analog drift 
+ IR alignment 
+& sensitivity, 
+filtering 
+design, ADC 
+resolution 
+Signal 
+integrity and 
+measurement 
+stability 
+2, 3, 4 
+1, 2, 3 
+2.  Dana 
+EE 
+Network 
+latency, packet 
+loss, power 
+consumption 
+ 
+Cellular 
+LTE/4G 
+uplink, data 
+packaging, 
+cloud 
+interface 
+Communicatio
+n reliability 
+5, 6 
+4, 5, 6 
+ 
+ 
+3.  Naflah 
+PET
+E 
+Safety limits, 
+realistic leak 
+simulation, 
+repeatability 
+ 
+Leak point 
+selection, 
+methane leak 
+rate ranges, 
+test protocol 
+Valid 
+operating 
+conditions for 
+reliable 
+detection 
+1 
+9, 1 
+
+--- PAGE 34 ---
+ 
+ 
+ 
+35 
+ 
+4.  Ragha
+d 
+CS 
+Data quality, 
+model latency 
+AI: Feature 
+Extraction & 
+Preprocessin
+g.  
+App: data 
+visualization 
+logic 
+ 
+Stable leak 
+classification 
+input 
+7, 8 
+6, 7, 8 
+5.  Maram CS 
+ 
+Overfitting, 
+class 
+imbalance 
+AI: model 
+training & 
+tuning.  
+App: alert 
+triggering 
+rules 
+Accuracy ≥ 
+70%, false 
+alarm rate ≤ 
+Y% 
+7, 8 
+6, 7, 8 
+ 
+6.  Elaf 
+CS 
+UI 
+responsiveness
+, 
+synchronizatio
+n delay 
+AI: Model 
+Evaluation & 
+Testing. 
+App: UI/UX 
+& 
+notification 
+handling 
+Real-time 
+alerts, usability 
+7, 8 
+6, 7, 8 
+ 
+ 
+ 
+Chapter 3 
+Design and Development 
+This chapter describes the design and development process of the proposed infrared-based 
+methane leak detection system. It explains how initial design concepts were generated, 
+evaluated, and refined to arrive at the final system architecture. Section 3.1 presents the design 
+concept generation process, including internal brainstorming, external research, and expert 
+
+--- PAGE 35 ---
+ 
+ 
+ 
+36 
+consultation. Section 3.2 describes the selection of the final concept based on feasibility, safety, 
+performance, and system requirements. 
+3.1 Design Concept 
+• Internal Search:   
+The internal search phase focused on generating multiple design concepts through structured 
+brainstorming sessions conducted by the project team. Initial ideas included contact-based 
+methane sensors, mobile robotic inspection platforms, distributed fixed sensor networks, and 
+optical sensing approaches. These concepts were evaluated qualitatively based on safety, 
+reliability, complexity, and feasibility. 
+To guide the concept generation process in a systematic manner, the SCAMPER methodology 
+was applied. This approach enabled the team to explore design alternatives by substituting, 
+combining, adapting, modifying, eliminating, and reversing elements of existing methane 
+detection systems. Through SCAMPER analysis, traditional contact-based gas sensors were 
+substituted with non-contact infrared sensing, mechanical components such as mobile robots 
+were eliminated to reduce complexity, and the sensing geometry was modified to provide 
+circumferential coverage around the pipeline. 
+The results of the SCAMPER analysis are summarized in Table 4, which highlights how 
+structured ideation led to the development of an infrared-based, non-intrusive methane leak 
+detection concept. 
+ 
+Table 4: SCAMPER Analysis  
+SCAMPER 
+Element 
+Selected Outcome in Final Design 
+Substitute 
+Traditional contact-based gas sensors (catalytic and metal-oxide) were 
+replaced with non-contact infrared optical sensing to avoid sensor 
+poisoning, aging, and frequent calibration. 
+
+--- PAGE 36 ---
+ 
+ 
+ 
+37 
+Combine 
+Infrared absorption sensing was combined with AI-based signal 
+classification and cellular communication to enable intelligent detection and 
+remote monitoring. 
+Adapt 
+Industrial and laboratory optical methane detection techniques were adapted 
+to a compact, externally mounted pipeline monitoring system suitable for 
+field deployment. 
+Modify 
+The sensing geometry was modified from single-point detection to a 
+circumferential transmitter–receiver configuration to improve leak coverage 
+around the pipeline. 
+Put to 
+Another Use 
+Infrared optical sensing, commonly used for laboratory gas analysis, was 
+repurposed for continuous external monitoring of pipelines, especially in 
+remote and unmanned areas. 
+Eliminate 
+Mobile robots, motors, rails, and moving mechanical components were 
+eliminated to reduce system complexity, power consumption, and 
+maintenance requirements. 
+Rearrange / 
+Reverse 
+The sensing approach was reversed by placing all infrared sources and 
+detectors outside the pipeline instead of inside, ensuring non-intrusive and 
+safe operation. 
+ 
+• External Search:   
+An external search was conducted to inspire and validate the proposed methane leak detection 
+concepts [1], [2], [5], [7], [12], [13]. This search included a review of academic literature, 
+industrial practices, and existing commercial methane monitoring technologies used in oil and 
+gas pipeline applications. Particular attention was given to non-contact methane detection 
+methods to address the limitations of traditional contact-based gas sensors, such as sensor 
+poisoning, drift, and frequent recalibration. 
+The literature review highlighted optical methane detection techniques, including non-
+dispersive infrared (NDIR) sensing and open-path infrared absorption systems, as reliable and 
+widely adopted solutions for methane monitoring. Several studies demonstrated that methane 
+exhibits strong infrared absorption in the near-infrared (1.63–1.69 µm) and mid-infrared (3.2–
+3.4 µm) wavelength ranges, making infrared sensing suitable for selective methane detection. 
+
+--- PAGE 37 ---
+ 
+ 
+ 
+38 
+Additionally, industrial systems were found to favor externally mounted optical sensors due to 
+their non-intrusive operation and compatibility with pipeline safety requirements. 
+Competitor benchmarking revealed that many commercial solutions rely on complex mobile 
+platforms or high-cost laser-based systems, which are not always feasible for scalable 
+deployment. These findings motivated the development of a simplified infrared-based system 
+that balances detection performance, power efficiency, and implementation feasibility while 
+maintaining compatibility with intelligent data processing and remote communication. 
+All external sources reviewed during this phase were properly referenced and used to support 
+the selection of the infrared-based sensing approach. 
+ 
+• Expert Consultation:   
+Expert consultations were conducted with faculty members and laboratory instructors 
+specializing in electrical engineering, petroleum engineering, and instrumentation systems. 
+These consultations aimed to assess the feasibility, safety, and practicality of the proposed 
+design concepts and to identify potential implementation challenges. 
+Key feedback emphasized the importance of maintaining pipeline integrity by avoiding 
+intrusive sensing methods and minimizing mechanical complexity. Experts recommended 
+eliminating mobile robotic components due to increased reliability risks, higher power 
+consumption, and longer development time. They also advised that all sensing components be 
+mounted externally to the pipeline to ensure safe operation and ease of installation. 
+Additional recommendations included the use of photodiode-based infrared receivers matched 
+to methane absorption wavelengths, the incorporation of optical filtering to reduce 
+environmental interference, and the application of AI-based signal processing to minimize false 
+alarms. These expert insights directly influenced the refinement of the final system architecture 
+and reinforced the decision to adopt an externally mounted infrared transmitter–receiver 
+configuration with intelligent data analysis. 
+3.2 Concept Selection 
+   
+
+--- PAGE 38 ---
+ 
+ 
+ 
+39 
+ 
+Figure 5: Design Concept Fan 
+ 
+This section documents the process used to narrow down the potential design concepts 
+and select the final solution. A Design Concept Fan, shown in Figure 5, was used as a structured 
+framework to represent alternative design decisions and corresponding solution options. In the 
+concept fan, circles represent decision points, while rectangles represent specific solution 
+choices. This approach enabled systematic comparison of alternatives and clear visualization 
+of how early design decisions influenced subsequent system configurations. 
+ 
+Concept Fan Structure and Decision Flow 
+At the highest level, the design was decomposed into major subsystems, including the 
+sensing method, infrared source configuration, receiver type, signal processing approach, 
+communication method, and user interface. Each subsystem was treated as a decision node, 
+from which multiple solution options were explored. 
+ 
+Sensing Method Selection 
+One of the primary decision points involved selecting the methane sensing method. 
+The alternatives considered included contact-based gas sensors, air-sampling sensors, and 
+optical infrared sensing. Contact-based sensors were rejected due to sensor poisoning, drift, and 
+frequent calibration requirements. Air-sampling systems were found to have slower response 
+
+--- PAGE 39 ---
+ 
+ 
+ 
+40 
+times and limited spatial coverage. Infrared optical absorption sensing was selected due to its 
+non-contact operation, high selectivity for methane, and suitability for continuous monitoring. 
+ 
+Infrared Source Configuration 
+For the infrared source, options included a single emitter, a linear emitter arrangement, 
+and a circumferential source configuration. A single emitter offered simplicity but limited 
+coverage. The infrared source ring was selected as it provides uniform illumination around the 
+pipeline and improves the probability of detecting leaks occurring at different circumferential 
+locations. 
+ 
+Receiver Type Selection 
+Receiver options included thermal detectors, phototransistors, and photodiode-based 
+receivers. Thermal detectors were rejected due to slower response times, while phototransistors 
+were found to be more sensitive to noise. Photodiode-based receivers, matched to methane 
+absorption wavelengths, were selected due to their fast response, stability, and compatibility 
+with precise signal conditioning. 
+ 
+Signal Processing and Decision Making 
+Signal processing alternatives included simple threshold-based detection and machine 
+learning-based classification. While threshold-based methods are easy to implement, they are 
+highly susceptible to false alarms caused by environmental noise. AI-based signal classification 
+was selected to improve detection reliability and reduce false positives by learning 
+characteristic absorption patterns associated with methane leakage. 
+ 
+Communication and User Interface 
+Communication options included wired transmission, short-range wireless 
+communication, and cellular communication. Cellular communication was selected due to its 
+suitability for remote pipeline environments. For user interaction, local displays were 
+considered but ultimately replaced with a mobile/desktop application, providing remote alerts, 
+visualization, and event logging. 
+ 
+Comparison of Alternative Concepts and Trade-Offs 
+Several complete system concepts were formed by combining different branches of the 
+concept fan, including a mobile robotic inspection system, distributed fixed sensors, fixed 
+
+--- PAGE 40 ---
+ 
+ 
+ 
+41 
+sensors with air sampling, and an infrared-based optical detection system. Mobile robotic 
+systems offered mobility but introduced mechanical complexity, higher power consumption, 
+and safety concerns. Distributed fixed sensors reduced mechanical complexity but suffered 
+from limited coverage. Air-sampling systems improved sensitivity but had slower response 
+times. 
+The infrared-based open-path methane leak detection system provides the best balance between 
+safety, coverage, reliability, power efficiency, and feasibility. Its non-intrusive design 
+eliminates the need for mechanical movement, while circumferential infrared coverage and 
+intelligent data processing enhance leak detection performance. 
+ 
+ 
+ 
+Final Concept Selection 
+Based on the concept fan analysis and qualitative comparison of alternatives, the 
+infrared-based methane leak detection system was selected as the final design. The selected 
+configuration consists of an infrared source ring mounted externally at one end of the pipeline, 
+and a photodiode-based receiver mounted externally at the opposite end. Methane leakage is 
+detected through attenuation of infrared light along the pipeline, and the resulting signals are 
+processed using AI techniques and transmitted to a user's application via cellular 
+communication. 
+The final concept selected through this process is further evaluated quantitatively using a Pugh 
+matrix, which is presented in Section 3.3. 
+ 
+3.3 Concept Evaluation 
+Initial Screening: 
+An initial screening was conducted to identify viable concepts for methane leak 
+detection prior to detailed design development. Four concepts were considered: Infrared 
+Methane Leak Detection, Distributed Fixed Sensors, Rail-Guided Mobile Robot, and Portable 
+Handheld 
+Inspection 
+Units. 
+All concepts were screened against fundamental feasibility requirements, including operational 
+safety, ability to detect methane effectively, and suitability for deployment in industrial 
+environments. Concepts that posed excessive safety risks, insufficient coverage, or impractical 
+operational constraints were flagged during this stage. All four concepts passed the initial 
+
+--- PAGE 41 ---
+ 
+ 
+ 
+42 
+screening and were therefore advanced to a more detailed quantitative evaluation using a 
+weighted decision matrix. 
+ 
+Evaluation Methodology: 
+ A weighted Pugh decision matrix was used to perform a structured and objective comparison 
+of the shortlisted concepts. Key evaluation criteria were identified based on project 
+requirements and industry considerations. Each criterion was assigned a weighting factor to 
+reflect its relative importance to the overall system performance. 
+ 
+ 
+Table 5: Selection Criteria and Weighting Factors for Concept Evaluation 
+Selection Criteria 
+Weight 
+Safety 
+25% 
+Coverage 
+20% 
+Power Efficiency 
+15% 
+Accuracy 
+15% 
+Cost 
+15% 
+Build Feasibility 
+10% 
+ 
+Each concept was rated on a scale of 1 to 5 for every criterion, where: 
+• 
+1 represents very poor performance, 
+• 
+3 represents acceptable or average performance, 
+• 
+5 represents excellent performance. 
+The rating for each criterion was multiplied by its assigned weight to obtain a weighted score. 
+The total score for each concept was calculated by summing all weighted scores. Concepts were 
+then ranked based on their total scores, with higher scores indicating a more favorable overall 
+performance. This methodology ensured that critical factors such as safety and coverage had a 
+stronger influence on the final decision than less critical factors. 
+Table 6: Concept 1- Infrared Methane Leak Detection 
+Criterion 
+Weight 
+Rating (1–5) 
+Weighted Score 
+Safety 
+0.25 
+5 
+1.25 
+
+--- PAGE 42 ---
+ 
+ 
+ 
+43 
+Coverage 
+0.20 
+5 
+1.00 
+Power Efficiency 
+0.15 
+3 
+0.45 
+Accuracy 
+0.15 
+4 
+0.60 
+Cost 
+0.15 
+3 
+0.45 
+Build Feasibility 
+0.10 
+4 
+0.40 
+Total Score 
+4.15 
+Rank 
+1 
+Continue? 
+YES 
+ 
+Table 7: Concept 2 - Distributed Fixed Sensors 
+Criterion 
+Weight 
+Rating (1–5) 
+Weighted Score 
+Safety 
+0.25 
+4 
+1.00 
+Coverage 
+0.20 
+3 
+0.60 
+Power Efficiency 
+0.15 
+4 
+0.60 
+Accuracy 
+0.15 
+3 
+0.45 
+Cost 
+0.15 
+4 
+0.60 
+Build Feasibility 
+0.10 
+4 
+0.40 
+Total Score 
+3.65 
+Rank 
+3 
+Continue? 
+No (limited coverage) 
+ 
+Table 8: Concept 3 - Rail-Guided Mobile Robot 
+Criterion 
+Weight 
+Rating (1–5) 
+Weighted Score 
+Safety 
+0.25 
+4 
+1.00 
+Coverage 
+0.20 
+4 
+0.80 
+Power Efficiency 
+0.15 
+3 
+0.45 
+Accuracy 
+0.15 
+4 
+0.60 
+Cost 
+0.15 
+3 
+0.45 
+Build Feasibility 
+0.10 
+4 
+0.40 
+
+--- PAGE 43 ---
+ 
+ 
+ 
+44 
+Total Score 
+3.70 
+Rank 
+2 
+Continue? 
+No (system complexity) 
+ 
+ 
+Table 9: Concept 4 - Portable Handheld Inspection Unit 
+Criterion 
+Weight 
+Rating (1–5) 
+Weighted Score 
+Safety 
+0.25 
+2 
+0.50 
+Coverage 
+0.20 
+3 
+0.60 
+Power Efficiency 
+0.15 
+4 
+0.60 
+Accuracy 
+0.15 
+3 
+0.45 
+Cost 
+0.15 
+4 
+0.60 
+Build Feasibility 
+0.10 
+5 
+0.50 
+Total Score 
+3.25 
+Rank 
+4 
+Continue? 
+No (operator safety) 
+ 
+ 
+Guidelines for Evaluation 
+The following guidelines were applied consistently during the evaluation process to ensure 
+fairness and repeatability: 
+• 
+Safety was prioritized as the most critical criterion, reflecting the hazardous nature of 
+methane and the need to minimize risk to personnel and infrastructure [15], [16]. 
+• 
+Coverage assessed the ability of each concept to monitor large areas or detect leaks 
+over a wide spatial range. 
+• 
+Power Efficiency evaluates energy consumption and suitability for continuous or long-
+term operations. 
+• 
+Accuracy is considered the reliability and precision of methane detection under 
+varying environmental conditions [2], [12]. 
+• 
+Cost included estimated implementation, installation, and maintenance costs. 
+
+--- PAGE 44 ---
+ 
+ 
+ 
+45 
+• 
+Build Feasibility assessed technical complexity, availability of components, and ease 
+of system integration. 
+All concepts were evaluated using the same criteria, weights, and rating scale to maintain 
+consistency. The evaluation results were further visualized using a radar chart to provide a clear 
+comparison of strengths and weaknesses across all concepts. 
+Table 10: Pugh Matrix (Radar Chart Input) 
+Concept 
+Safety 
+Coverage 
+Power 
+Efficiency 
+Accuracy 
+Cost 
+Build 
+Feasibility 
+Infrared 
+Methane Leak 
+Detection 
+5 
+5 
+3 
+4 
+3 
+4 
+Distributed 
+Fixed Sensors 
+4 
+3 
+4 
+3 
+4 
+4 
+Rail-Guided 
+Mobile Robot 
+4 
+4 
+3 
+4 
+3 
+4 
+Portable 
+Handheld 
+Inspection Unit 
+2 
+3 
+4 
+3 
+4 
+5 
+ 
+ 
+ 
+Figure 6: Radar Chart Evaluation of 4 Detection Methods 
+
+--- PAGE 45 ---
+ 
+ 
+ 
+46 
+3.4 Conceptual Prototype Description 
+ 
+Following the selection of Infrared Methane Leak Detection as the preferred concept, 
+a preliminary prototype configuration is proposed to illustrate the operating principle of the 
+system. This prototype is conceptual in nature and does not represent the final mechanical or 
+optical design. 
+As shown in Figure 7, the proposed system consists of an infrared (IR) laser diode acting as the 
+emission source, arranged in a circular configuration around the external circumference of the 
+pipeline. The IR source emits infrared radiation at a wavelength corresponding to a strong 
+methane absorption band [2], [13]. A photodiode detector is positioned on the opposite side of 
+the pipeline to receive the transmitted infrared signal across the pipeline exterior. 
+The functional operation of the detection system is further illustrated in Figure 8, which presents 
+a block diagram of the infrared methane leak detection process. The infrared transmitter emits 
+a modulated IR signal toward the receiver, where the photodiode converts the received radiation 
+into an electrical signal. Under normal operating conditions, the detected signal remains close 
+to a predefined baseline level. In the presence of a methane leak, methane gas absorbs a portion 
+of the infrared radiation along the optical path, resulting in a measurable reduction in signal 
+intensity at the receiver [12], [13]. 
+Under normal operating conditions, the emitted infrared radiation reaches the photodiode with 
+minimal attenuation. In the presence of a methane leak, methane gas within the optical path 
+absorbs a portion of the infrared radiation, resulting in a measurable reduction in detected signal 
+intensity. This absorption is observable in the infrared spectrum and is used to identify the 
+presence of methane leakage. 
+The external and non-intrusive placement of the infrared source and detector allows continuous 
+monitoring without interfering with pipeline operation [2], [7].. This configuration enables real-
+time leak detection while providing flexibility for further refinement and optimization in the 
+final system design. 
+
+--- PAGE 46 ---
+ 
+ 
+ 
+47 
+ 
+Figure 7: Conceptual infrared methane leak detection layout 
+ 
+Figure 8: Infrared methane detection block diagram 
+ 
+ 
+ 
+ 
+ 
+
+--- PAGE 47 ---
+ 
+ 
+ 
+48 
+Chapter 4 
+Final Design 
+This chapter presents the finalized multidisciplinary design of the infrared-based 
+methane leak detection system following full development and integration. It begins with an 
+overall description of the system architecture and operating principle, followed by a detailed 
+explanation of the sensing hardware, embedded processing, communication structure, and 
+petroleum engineering safety considerations. The chapter then provides an engineering analysis 
+and performance evaluation of the completed system in relation to the defined project 
+constraints and specifications. Finally, it includes the bill of materials, cost analysis, and 
+engineering drawings, which collectively document the physical implementation, economic 
+feasibility, and structural configuration of the final design. 
+4.1 Overall Description  
+The final prototype is designed to detect and monitor methane leakage at critical 
+pipeline joint locations, including flanges, gaskets, and valve connections. These locations are 
+widely recognized as the most vulnerable points in gas transmission infrastructure due to 
+mechanical stress, seal degradation, corrosion, and repeated pressure and temperature 
+variations over time [4.1], [12], [13].  
+The final design of the proposed methane leak detection system is a fixed, free-space laser-
+based sensing system integrated with embedded signal processing, AI-based classification, and 
+cloud monitoring. 
+The system consists of a near-infrared laser diode transmitter mounted at one end of the pipeline 
+test section, and a photodetector mounted at the opposite end. The laser beam propagates 
+directly through air between the two ends. When methane leaks into the region between the 
+transmitter and receiver, the gas absorbs part of the infrared radiation at a methane-sensitive 
+wavelength. This absorption reduces the received infrared signal intensity at the detector. 
+The photodetector converts the received infrared radiation into an electrical current. This 
+current is converted into a voltage signal using a transimpedance amplifier and further 
+
+--- PAGE 48 ---
+ 
+ 
+ 
+49 
+conditioned through analog filtering to reduce noise. The conditioned signal is then digitized 
+using a microcontroller with an integrated analog-to-digital converter (ADC).  
+The digital data is processed and analyzed using an AI-based classification algorithm to 
+determine whether a methane leak is present. The processed signal is then analyzed through a 
+supervised machine learning algorithm (Random Forest classifier) that has been trained on 
+labeled methane and non-methane signal patterns. The algorithm assesses the extracted 
+features, including the level of signal attenuation and the rate of signal change, to effectively 
+distinguish between real methane leaks and natural environmental variations. 
+The detection results are transmitted to a cloud platform using a cellular communication 
+module. A user application retrieves the data from the cloud and provides real-time monitoring, 
+signal visualization, and leak alerts. 
+Detection thresholds are set using conservative limits referenced to the Lower Explosive Limit 
+(LEL), so that alerts are based on meaningful safety conditions. This approach helps translate 
+infrared measurements into practical pipeline safety decisions while keeping the sensing 
+hardware, data analysis, and safety interpretation aligned. 
+ 
+ 
+
+--- PAGE 49 ---
+ 
+ 
+ 
+50 
+Figure 9: Multidisciplinary Block Diagram 
+ 
+The overall architecture of the final methane leak detection system is illustrated in Figure 9. 
+The diagram shows the integration of Electrical Engineering (EE), Petroleum Engineering 
+(PETE), and Computer Science (CS) subsystems, and the signal flow from laser transmission 
+to cloud-based monitoring. 
+ 
+ 
+ 
+4.2 Detailed Design Description  
+ 
+ 
+4.2.1  System Overview (EE Part) 
+ 
+Figure 10: EE Detailed Block Diagram of the Methane Detection System 
+ 
+
+--- PAGE 50 ---
+ 
+ 
+ 
+51 
+The Electrical Engineering design of the methane detection system is based on an open-path 
+near-infrared (NIR) laser absorption architecture as shown in Figure 10. The system measures 
+methane presence by detecting attenuation of a modulated NIR laser beam transmitted across a 
+free-space path and received by a photodiode detector [12], [14]. 
+The complete EE architecture is illustrated in Figure 10. 
+The sensing mechanism relies on the Beer–Lambert absorption principle: 
+ 
+ 
+where: 
+• 
+= transmitted optical intensity 
+• 
+= received optical intensity 
+• 
+= absorption coefficient 
+• 
+= methane concentration 
+• 
+= optical path length 
+The EE system is designed to measure relative changes in received intensity and compute a 
+methane detection metric from this attenuation. 
+  
+4.2.1.1   Functional Decomposition 
+The system is decomposed into five primary EE subsystems: 
+1. Power Management Subsystem 
+2. Laser Transmission Subsystem 
+3. Free-Space Optical Detection Path 
+4. Photodetection and Analog Front-End 
+5. Embedded Processing and Communication Subsystem 
+  
+4.2.1.2  Power Management Subsystem 
+Function 
+
+--- PAGE 51 ---
+ 
+ 
+ 
+52 
+Provide stable and low-noise electrical power to: 
+• 
+Laser driver 
+• 
+Photodiode front-end 
+• 
+ESP32 processor 
+• 
+Cellular modem 
+ 
+Design Considerations 
+Because the photodetection stage is highly sensitive to supply noise, the power subsystem 
+was designed with: 
+• 
+Separate regulation paths for analog and digital loads 
+• 
+Decoupling capacitors near the TIA and ESP32 
+• 
+Dedicated filtering for the cellular modem 
+The cellular modem introduces transient high-current bursts during transmission. To prevent 
+voltage droop and unintended system resets, bulk capacitance and low-impedance power 
+routing were incorporated. 
+Impact on Measurement Accuracy 
+Noise in the supply rails directly affects TIA output and ADC readings. The power subsystem 
+therefore, directly influences detection sensitivity and signal stability. 
+  
+4.2.1.3  Laser Transmission Subsystem 
+Function 
+Generate and transmit a controlled NIR optical signal across the open-air detection region. 
+Components 
+• 
+NIR Laser Diode 
+• 
+Constant-Current Laser Driver 
+• 
+Modulation input from ESP32 
+• 
+Safety enable control 
+Modulation Strategy 
+
+--- PAGE 52 ---
+ 
+ 
+ 
+53 
+The laser output is modulated at a defined frequency. This serves two critical purposes: 
+1. Rejecting ambient light interference. 
+2. Allowing frequency-selective filtering in the receiver stage. 
+This technique improves signal-to-noise ratio (SNR) in open-air environments where 
+background illumination and environmental disturbances are present. 
+Engineering Rationale 
+Laser diodes are sensitive to current fluctuations and thermal effects. A constant-current driver 
+ensures optical stability and prevents thermal runaway. Modulation improves robustness 
+without increasing optical power. 
+  
+4.2.1.4  Free-Space Detection Region 
+The transmitted beam propagates through open air before reaching the receiver. Methane 
+absorption reduces the received intensity. 
+However, open-path systems are also influenced by: 
+• 
+Dust or fog 
+• 
+Optical misalignment 
+• 
+Obstruction 
+• 
+Ambient IR radiation 
+Therefore, the system measures not only signal amplitude but also signal stability and quality 
+indicators to distinguish methane-induced attenuation from environmental artifacts. 
+  
+4.2.1.5  Photodetection and Analog Front-End 
+Function 
+Convert received optical power into a conditioned electrical signal. 
+Signal Chain 
+1. Photodiode converts optical intensity to current. 
+2. Transimpedance Amplifier (TIA) converts current to voltage. 
+3. Band-pass filtering isolates the modulation frequency. 
+
+--- PAGE 53 ---
+ 
+ 
+ 
+54 
+4. Conditioned signal is fed into the ESP32 ADC. 
+Design Decisions 
+• 
+TIA topology selected for low-noise current-to-voltage conversion. 
+• 
+Frequency-selective filtering reduces DC ambient offset. 
+• 
+PCB layout minimizes trace length between photodiode and TIA. 
+• 
+RF isolation from cellular modem reduces interference. 
+Performance Consideration 
+The analog front-end determines the minimum detectable methane concentration. Noise floor, 
+bandwidth, and gain directly impact sensitivity. 
+4.2.1.6  Embedded Processing and Methane Estimation 
+The ESP32 performs the following: 
+• 
+Generates modulation signal. 
+• 
+Samples the conditioned analog signal. 
+• 
+Extracts modulation amplitude. 
+• 
+Computes relative attenuation metric. 
+A normalized absorbance proxy is calculated: 
+ 
+ 
+ 
+where 
+is baseline calibration intensity. 
+Alarm Logic: 
+Threshold-based detection is implemented for transparency and repeatability. Alarm status is 
+triggered when the computed attenuation exceeds predefined safety thresholds. 
+This deterministic approach avoids black-box classification and enhances explainability. 
+  
+4.2.1.7  Cellular Communication Subsystem 
+
+--- PAGE 54 ---
+ 
+ 
+ 
+55 
+The communication subsystem transmits processed data to a cloud platform via cellular 
+network. 
+Data Packet Structure 
+• 
+Methane estimate 
+• 
+Alarm status 
+• 
+Signal quality indicator 
+• 
+System fault log 
+Standard communication protocols (HTTP or MQTT) were selected to ensure interoperability 
+and maintainability. 
+4.2.1.8  Ethics, Public Health, and Safety Integration 
+Ethics 
+• 
+Transparent threshold-based detection logic. 
+• 
+No collection of personal data. 
+• 
+Limited telemetry transmission. 
+ 
+Public Health 
+• 
+Early methane leak detection reduces explosion risk. 
+• 
+Continuous monitoring improves environmental safety. 
+• 
+Real-time alerting enables rapid response. 
+ 
+Safety 
+Laser Safety: 
+• 
+Controlled emission via current driver. 
+• 
+Hardware disable control. 
+Electrical Safety: 
+• 
+Regulated supply and current limiting. 
+• 
+Proper grounding and isolation. 
+RF Safety: 
+
+--- PAGE 55 ---
+ 
+ 
+ 
+56 
+• 
+Certified cellular module. 
+• 
+Antenna isolation from analog circuitry. 
+These considerations were explicitly integrated into subsystem design decisions. 
+ 
+4.2.2  System Overview (PETE part)  
+4.2.2.1 Overview of PETE contribution & Test validation 
+In gas transmission infrastructure, methane leakage most frequently originates 
+from mechanical connection points such as flanges, gaskets, threaded fittings, and valve 
+assemblies rather than intact pipe segments. These locations experience cyclic mechanical 
+loading, seal degradation, corrosion, vibration, and pressure–temperature fluctuations, all of 
+which increase the probability of loss of methane gas. 
+Accordingly, the petroleum-engineering component of the detailed design focuses on ensuring 
+that the laboratory detection configuration realistically represents joint-level leakage behavior. 
+Instead of simulating full-scale pipeline rupture conditions, the design reproduces the localized 
+near-field methane plume that forms immediately after a small containment failure. This 
+plume-based representation is sufficient because infrared open-path sensing depends on 
+methane intersecting the optical beam, not on reproducing full pipeline hydrodynamics. 
+A controlled methane-release Test validation framework is implemented to ensure that the 
+sensing system is evaluated under repeatable, safe, and physically meaningful conditions. The 
+validation methodology includes: 
+• 
+Regulated methane supply using a compressed methane gas cylinder and precision flow 
+control 
+• 
+Generation of repeatable leak scenarios representing small and moderate joint failures 
+• 
+Placement of the infrared optical path such that it intersects the expected dispersion 
+region 
+• 
+Continuous monitoring of methane concentration in ppm, %v/v, and %LEL 
+• 
+Recording of time-series data to support AI-based anomaly detection 
+
+--- PAGE 56 ---
+ 
+ 
+ 
+57 
+This framework ensures that the experimental data used for calibration and validation 
+reflects true containment-loss behavior rather than arbitrary laboratory gas exposure. 
+ 
+ 
+Figure 11: Laboratory Test Validation for Methane Leak Detection 
+Methane flammability defines the fundamental safety constraint of the project. 
+The Lower Explosive Limit (LEL) of methane is approximately: 
+LEL CH4≈5% v/v≈50,000 ppm 
+To ensure safe laboratory testing and meaningful early-warning detection, the system is 
+intentionally operated within a conservative sub-LEL regime. Detection thresholds are 
+therefore selected well below hazardous ignition conditions, enabling identification of 
+developing leaks before escalation to fire or explosion risk. 
+Expressing methane concentration in %LEL provides a direct engineering link between: 
+• 
+Sensor measurement 
+
+--- PAGE 57 ---
+ 
+ 
+ 
+58 
+• 
+Safety interpretation 
+• 
+Operational decision-making 
+This LEL-referenced framework forms the core petroleum-engineering design basis of the 
+system. 
+4.2.2.2 Ethics, Public Health, and Safety Integration  
+Safety: 
+• 
+Sub-LEL methane handling during all validation tests 
+• 
+Ventilation and controlled gas-flow procedures 
+• 
+Prevention of ignition-risk concentrations 
+Public Health & Environment: 
+• 
+Early methane detection reduces fire/explosion hazards 
+• 
+Minimizes greenhouse-gas emissions from undetected leaks 
+Engineering Ethics: 
+• 
+Conservative safety thresholds avoid false reassurance 
+• 
+Validation under repeatable conditions ensures truthful performance claims 
+4.2.3  System Overview (CS part) 
+ 
+
+--- PAGE 58 ---
+ 
+ 
+ 
+59 
+ 
+Figure 12: Backend Architecture & Data Flow 
+ 
+4.2.3.1 Data Acquisition and Digitization 
+The data acquisition stage represents the interface between the Electrical Engineering (EE) 
+subsystem and the Computer Science (CS) subsystem. After optical detection and analog signal 
+conditioning, the photodetector output is converted into a voltage signal proportional to the 
+received infrared intensity 𝐼𝑡. This analog signal is digitized using the embedded 
+microcontroller’s Analog-to-Digital Converter (ADC).  
+A high-resolution ADC is utilized to ensure sufficient sensitivity to detect small variations in 
+infrared intensity caused by methane absorption. The sampling frequency is selected to satisfy 
+the system requirement of real-time monitoring (≥ 10 Hz), allowing capture of gradual temporal 
+changes in signal attenuation while maintaining computational efficiency. 
+The digitized intensity measurements are time-stamped and buffered to preserve temporal 
+continuity. This buffering supports sliding-window analysis required for predictive anomaly 
+detection. Each sample is structured into a digital frame containing: 
+
+--- PAGE 59 ---
+ 
+ 
+ 
+60 
+• 
+Timestamp 
+ • 
+Measured 
+intensity 
+𝐼𝑡. 
+ • Baseline reference 𝐼0 (if applicable). 
+These structured digital frames are transmitted securely to the backend using HTTPS. The 
+HTTPS protocol employs Transport Layer Security (TLS), which provides encrypted 
+communication through authenticated key exchange and AES-based symmetric encryption 
+after session establishment. 
+Upon reception at the backend, the CS subsystem converts the transmitted intensity values into 
+absorbance using the Beer–Lambert transformation: 
+𝐴= ln(𝐼0
+𝐼𝑡
+) 
+This transformation normalizes optical measurements and isolates methane-induced 
+attenuation effects from baseline intensity variations. 
+Continuous and time-indexed sampling enables the CS subsystem to perform reliable signal 
+preprocessing, temporal feature extraction, and predictive anomaly scoring. By transforming 
+analog infrared measurements into securely transmitted, structured digital data suitable for 
+time-series analysis, this stage establishes the foundational input required for intelligent 
+methane leak detection. 
+ 
+4.2.3.2 Signal Processing and Feature Engineering 
+After digitization, the signal undergoes digital preprocessing to reduce noise and compensate 
+for environmental variations. A digital filtering stage is applied to suppress high-frequency 
+electronic noise and transmission artifacts that may distort infrared intensity measurements. 
+Baseline calibration is performed to correct slow drift effects caused by temperature 
+fluctuations or component instability, ensuring that long-term environmental variations do not 
+interfere with methane detection. 
+Following noise reduction, intensity measurements are converted into absorbance values using 
+the Beer–Lambert transformation. This step normalizes the signal and isolates methane-induced 
+
+--- PAGE 60 ---
+ 
+ 
+ 
+61 
+attenuation effects from baseline intensity variations, providing a consistent representation of 
+optical absorption behavior. 
+Rather than relying on individual samples, a sliding time-window approach is implemented to 
+analyze temporal signal behavior. This enables the system to evaluate how the signal evolves 
+over time, which is essential for predictive leak detection. Within each window, dynamic 
+features such as rate of change, rolling average, and signal stability are extracted. These features 
+capture gradual trends, subtle drift patterns, and increasing variability that may indicate early 
+methane presence. 
+By representing the signal as a structured set of temporal features rather than raw intensity 
+values, the CS subsystem provides the predictive AI model with meaningful inputs for anomaly 
+scoring. This feature engineering strategy improves detection robustness, enhances early 
+warning capability, and reduces false positives caused by transient noise or isolated 
+fluctuations. 
+ 
+4.2.3.3 AI Classification and Decision Logic 
+The processed and feature-engineered signal is analyzed using an unsupervised anomaly 
+detection model based on the Isolation Forest algorithm. Unlike supervised classification 
+approaches that require labeled leak and non-leak data, Isolation Forest is trained primarily on 
+normal operating behavior and identifies deviations from that baseline as anomalies. 
+This design choice is motivated by the nature of methane leak detection in pipeline 
+environments, where leak events are rare and early-stage leak signatures may not follow 
+consistent labeled patterns. By modeling normal system behavior, the AI subsystem can detect 
+subtle deviations in absorbance trends, signal variability, and temporal dynamics that precede 
+confirmed leak conditions. 
+The Isolation Forest model operates by recursively partitioning the multidimensional feature 
+space. Data points that require fewer partitions to isolate are assigned higher anomaly scores, 
+indicating abnormal behavior. Because the algorithm evaluates structural deviation rather than 
+fixed thresholds, it is well-suited for predictive detection in dynamic operating conditions. 
+Instead of producing a simple binary output, the anomaly score is mapped into three operational 
+states: 
+
+--- PAGE 61 ---
+ 
+ 
+ 
+62 
+• Normal (Green) – Signal behavior remains within learned baseline conditions. 
+ • Early Warning (Yellow) – Moderate anomaly score indicating emerging deviation trends. 
+ • Confirmed Leak (Red) – Sustained high anomaly score indicating strong methane-induced 
+absorption behavior. 
+This multi-level decision logic enables predictive alerts before concentration levels reach 
+critical thresholds. Early warning states allow intervention prior to confirmed leak escalation, 
+enhancing safety and reducing response time. 
+The model is deployed within the FastAPI backend, where inference is performed in real time 
+upon receipt of sensor data. Due to the computational efficiency of Isolation Forest, inference 
+latency remains significantly below the system’s real-time requirement (≤ 2 seconds), ensuring 
+timely alert generation without imposing excessive processing load. 
+By combining time-series feature analysis with anomaly scoring and graded alert thresholds, 
+the AI subsystem enhances detection reliability, reduces false positives caused by transient 
+noise, and supports predictive methane leak monitoring consistent with the overall system 
+design objectives. 
+ 
+4.2.3.4 Backend, Database, and Application Layer 
+A FastAPI-based backend is implemented to manage real-time data processing, AI inference, 
+and structured data storage. The backend serves as the computational interface between the 
+sensing subsystem and the cloud infrastructure. 
+Upon receiving securely transmitted sensor data via HTTPS, the backend performs the 
+following operations: 
+• 
+Validates 
+incoming 
+requests 
+ • 
+Executes 
+feature 
+extraction 
+(if 
+not 
+precomputed) 
+ • 
+Performs 
+Isolation 
+Forest 
+inference 
+ • 
+Computes 
+anomaly 
+scores 
+ • 
+Maps 
+scores 
+to 
+operational 
+states 
+(Normal, 
+Yellow, 
+Red) 
+ • Structures time-stamped detection records 
+
+--- PAGE 62 ---
+ 
+ 
+ 
+63 
+By centralizing inference within the backend, the system allows model updates and parameter 
+tuning without requiring firmware modifications in the embedded hardware. This architecture 
+improves maintainability, scalability, and long-term system adaptability. 
+Detection records are stored in Google Firebase Firestore, which provides scalable, real-time 
+cloud-based data management. Each entry includes relevant signal features, anomaly score, 
+alert classification, and associated metadata. Firestore’s real-time synchronization enables the 
+mobile application to receive immediate updates upon detection state changes. 
+A Dart-based Flutter mobile application provides real-time monitoring and user interaction. 
+The application retrieves cloud-stored detection data and displays: 
+• 
+Current 
+system 
+status 
+(Green 
+/ 
+Yellow 
+/ 
+Red) 
+ • 
+Historical 
+signal 
+trends 
+ • 
+Time-stamped 
+event 
+logs 
+ • Alert notifications 
+This layered architecture ensures clear separation between hardware-level sensing (EE) and 
+software-level processing and visualization (CS), supporting modularity, scalability, and 
+system-level reliability. 
+ 
+ 
+ 
+4.2.3.5 Data Security and Access Control 
+To ensure secure data handling, all communication between the sensing subsystem and the 
+backend is performed over HTTPS. HTTPS utilizes Transport Layer Security (TLS), which 
+provides encrypted communication, authenticated key exchange, and message integrity 
+protection. 
+During the TLS handshake process, a secure session key is negotiated using asymmetric 
+cryptography. Once established, symmetric encryption (typically AES-based) is used internally 
+by the TLS protocol to encrypt transmitted data. This approach eliminates the need for manual 
+
+--- PAGE 63 ---
+ 
+ 
+ 
+64 
+AES key exchange while ensuring confidentiality and integrity of detection data during 
+transmission. 
+On the backend, structured request validation is implemented within FastAPI to prevent 
+malformed or unauthorized data submissions. API endpoints enforce controlled access policies 
+to ensure that only authenticated devices can submit detection data. 
+Firebase Firestore security rules are configured to restrict direct client-side database access. All 
+write operations are performed through verified backend API endpoints, ensuring centralized 
+control of stored detection records. Read permissions are governed by application-level 
+authentication to prevent unauthorized monitoring access. 
+User authentication mechanisms are implemented within the mobile application to restrict 
+access to authorized personnel. Role-based access control (RBAC) may be applied to 
+differentiate monitoring users from administrative users with extended privileges. 
+Together, these mechanisms ensure data confidentiality, integrity, and controlled accessibility 
+across the methane leak monitoring system while maintaining compliance with secure cloud-
+based deployment practices. 
+4.2.3.6 Ethics, Public Health, and Safety Integration 
+Ethics 
+• 
+Minimizing false negatives to prevent undetected methane leaks that could endanger 
+human life. 
+• 
+Reducing false positives to avoid unnecessary panic or operational disruption. 
+• 
+Implementing secure data handling practices to protect stored detection records from 
+unauthorized access. 
+• 
+Maintaining responsible use of machine learning by validating model performance 
+before deployment. 
+Public Health 
+• 
+Early methane leak detection reduces the risk of explosions and fire hazards in pipeline 
+environments. 
+• 
+Real-time alerts support rapid emergency response and risk mitigation. 
+
+--- PAGE 64 ---
+ 
+ 
+ 
+65 
+• 
+Cloud-based monitoring enables remote supervision, reducing the need for frequent 
+manual inspections. 
+Safety 
+• 
+Secure communication between backend, database, and application prevents data 
+manipulation. 
+• 
+Detection thresholds are referenced to conservative limits relative to the Lower 
+Explosive Limit (LEL). 
+• 
+AI outputs are integrated with safety-based decision logic before triggering alerts. 
+• 
+Structured logging of events supports post-incident analysis and system auditing. 
+ 
+ 
+4.3 Final Design Analysis and Results  
+This section presents the technical analysis and the results of the final multidisciplinary 
+design. The analysis evaluates the performance, stability, accuracy, integration, and safety of 
+the complete methane leak detection system across all participating disciplines, including 
+Electrical Engineering (EE), Petroleum Engineering (PETE), and Computer Science (CS). 
+4.3.1  Final Design Analysis (EE Part) 
+The Electrical Engineering final design analysis evaluates the following EE functional blocks 
+shown in Figure 5: 
+• 
+Laser Excitation and Thermal Stabilization 
+• 
+Optical Detection Subsystem 
+• 
+Analog Signal Conditioning Interface 
+• 
+Embedded Digitization and Sampling 
+• 
+Communication and Electrical Protection 
+
+--- PAGE 65 ---
+ 
+ 
+ 
+66 
+Each subsection includes governing equations, assumptions, and engineering justifications. 
+The physical sensing principle refers directly to the Beer–Lambert absorption model 
+presented in Section 1.3. 
+ 
+ 
+4.3.1.1 Laser Excitation and Thermal Stabilization 
+Governing Principle (From Section 1.3) 
+Methane detection is based on infrared absorption described by the Beer–Lambert law [12], 
+[13]: 
+𝐼= 𝐼0𝑒−𝛼𝐶𝐿 
+Where: 
+• I₀ = emitted intensity 
+ • I = received intensity 
+ • α = absorption coefficient 
+ • C = methane concentration 
+ • L = transmitter–receiver distance 
+Absorption is wavelength-dependent; therefore, wavelength stability is critical. 
+Engineering Analysis 
+The laser diode operates in constant-current mode to ensure stable optical output. Since 
+emitted optical intensity is proportional to injection current:  
+ 
+𝑃𝑙𝑎𝑠𝑒𝑟∝𝐼𝑙𝑎𝑠𝑒𝑟 
+Any current ripple produces intensity fluctuation. Closed-loop temperature stabilization 
+minimizes wavelength drift and ensures repeatability of the absorption coefficient. 
+Assumptions: 
+• 
+Temperature control maintains negligible wavelength variation. 
+• 
+Emitted intensity remains stable during measurement intervals. 
+Design Justification 
+Stable excitation ensures that changes in received intensity are due to methane absorption, not 
+laser instability. 
+
+--- PAGE 66 ---
+ 
+ 
+ 
+67 
+ 
+4.3.1.2 Optical Detection Subsystem: 
+Governing Principle 
+The photodetector converts received infrared radiation into electrical current: 
+ 𝐼𝑝ℎ𝑜𝑡𝑜= 𝑅𝜆⋅𝑃𝑟𝑒𝑐𝑒𝑖𝑣𝑒𝑑 
+• 
+Where: 
+• 
+Rλ = detector responsivity 
+• 
+Preceived = received radiation intensity 
+Under methane presence: 
+𝑃𝑟𝑒𝑐𝑒𝑖𝑣𝑒𝑑= 𝑃𝑙𝑎𝑠𝑒𝑟𝑒−𝛼𝐶𝐿 
+Thus, the detected current becomes: 
+𝐼𝑝ℎ𝑜𝑡𝑜= 𝑅𝜆𝑃𝑙𝑎𝑠𝑒𝑟𝑒−𝛼𝐶𝐿 
+Engineering Analysis 
+The detector operates in its linear region to preserve proportionality between optical intensity 
+and output voltage. Linear response ensures that attenuation remains measurable and suitable 
+for digitization. 
+Assumptions 
+• 
+Detector responsivity remains constant within operating temperature range. 
+• 
+Baseline received intensity does not cause saturation. 
+4.3.1.3 Analog Signal Conditioning 
+The detector output must be adapted to the ADC input range.  
+Governing Principle 
+ADC resolution: 
+𝑉𝑟𝑒𝑠𝑜𝑙𝑢𝑡𝑖𝑜𝑛= 𝑉𝑟𝑒𝑓
+2𝑛 
+For 12-bit resolution: 
+
+--- PAGE 67 ---
+ 
+ 
+ 
+68 
+𝑉𝑟𝑒𝑠𝑜𝑙𝑢𝑡𝑖𝑜𝑛= 3.3
+4096 ≈0.8 mV 
+To ensure detectability: 
+Δ𝑉𝑚𝑒𝑡ℎ𝑎𝑛𝑒> 𝑘× 𝑉𝑟𝑒𝑠𝑜𝑙𝑢𝑡𝑖𝑜𝑛 
+Where k provides safety margin above quantization noise. 
+Low-pass filter cutoff frequency: 
+𝑓𝑐=
+1
+2𝜋𝑅𝐶 
+ 
+Signal conditioning includes: 
+• 
+Voltage scaling to prevent ADC clipping 
+• 
+Low‑pass filtering to suppress high‑frequency noise 
+• 
+Input protection circuitry 
+Gain selection ensures: 
+• 
+Baseline signal remains within the 0–3.3 V range. 
+• 
+Methane‑induced variation spans multiple ADC counts. 
+• 
+An adequate dynamic range is achieved without saturation. 
+Assumptions 
+• 
+Noise level remains below methane‑induced signal change. 
+• 
+Gain does not amplify noise excessively. 
+ 
+4.3.1.4  Embedded Digitization 
+The microcontroller performs ADC conversion and sampling. 
+Governing Principle 
+𝐷= 𝑉𝑖𝑛𝑝𝑢𝑡
+𝑉𝑟𝑒𝑓
+(2𝑛−1) 
+Digital conversion: 
+Sampling frequency: 
+𝑓𝑠≥10 Hz 
+Engineering Analysis 
+
+--- PAGE 68 ---
+ 
+ 
+ 
+69 
+Methane plume formation occurs over seconds; therefore: 
+• 
+10 Hz sampling captures onset dynamics. 
+• 
+Higher sampling rates increase power consumption without significant detection of 
+improvement. 
+Digital filtering reduces residual noise and stabilizes baseline. 
+Assumptions 
+• 
+Methane-induced signal variation exceeds the ADC quantization threshold. 
+• 
+Sampling rate satisfies temporal detection requirements. 
+ 
+4.3.1.5 Communication and Electrical Protection 
+The communication subsystem transmits encrypted digital packets to the cloud platform. 
+Electrical protection includes: 
+• 
+Current limiting 
+• 
+Soft-start circuitry 
+• 
+Ground isolation 
+• 
+Overvoltage protection 
+ 
+Signal-to-noise ratio is defined as: 
+𝑆𝑁𝑅= 𝑉𝑠𝑖𝑔𝑛𝑎𝑙
+𝑉𝑛𝑜𝑖𝑠𝑒
+   
+Adequate SNR is required for reliable AI-based classification. 
+Engineering Analysis 
+Ground separation and shielding reduce electromagnetic interference from communication 
+circuitry. Protection mechanisms prevent unsafe laser operation and electrical overstress. 
+ 
+4.3.1.6  Final Design Performance Results  
+The final Electrical Engineering design meets the defined constraints and specifications as 
+established in Chapter 2. The analyses in Section 4.3.1 demonstrate that the sensing, 
+conditioning, and digitization subsystems operate within required performance limits. 
+• 
+Laser excitation stability ensures reliable absorption measurement. 
+• 
+Signal conditioning maintains detector output within ADC limits. 
+
+--- PAGE 69 ---
+ 
+ 
+ 
+70 
+• 
+Sampling frequency ≥10≥10 Hz satisfies response time requirements. 
+• 
+Voltage scaling prevents clipping. 
+• 
+Noise mitigation preserves signal integrity for AI classification. 
+• 
+Electrical protection ensures safe operation under laboratory conditions. 
+Therefore, the final EE design satisfies all applicable engineering specifications. 
+ 
+ 
+4.3.2 Final Design Analysis (PETE Part) 
+4.3.2.1 Analytical Framework for Methane Leak Detectability 
+The petroleum-engineering role of the final design focuses on verifying that the 
+infrared sensing configuration can reliably identify methane leakage under physically realistic 
+dispersion conditions while maintaining strict compliance with flammability-safety constraints. 
+The design follows OSHA LEL standards of safety. Rather than evaluating methane presence 
+only as a sensor signal variation, the analysis interprets detection in terms of loss of 
+containment, dispersion behavior, and proximity to explosion limits, which represent the 
+governing engineering risks in gas-pipeline systems. 
+Methane concentration is therefore referenced to the Lower Explosive Limit (LEL) to provide 
+a direct safety-oriented metric. For methane: 
+100% LEL CH4 ≈ 5% vol ≈ 50,000 ppm 
+To normalize measurements relative to flammability risk, concentration is expressed as: 
+% LEL= (Gas concentration (vol) / 5%) *100 
+This formulation establishes a quantitative relationship between measured methane 
+concentration, ignition hazard, and operational decision thresholds, enabling engineering-level 
+interpretation of detection results. 
+
+--- PAGE 70 ---
+ 
+ 
+ 
+71 
+4.3.2.1 Safety Margin and Early-Warning Detection Philosophy 
+A key design objective of the final system is operation within the sub-LEL regime, 
+ensuring that methane detection occurs significantly before concentrations approach flammable 
+conditions. This transforms the sensing system from a reactive hazard indicator into 
+a preventive early-warning mechanism, consistent with petroleum-industry risk-management 
+philosophy where mitigation is prioritized prior to escalation. 
+Let Cd denote the minimum detectable methane concentration expressed in %LEL. 
+Safe early-warning operation requires: 
+Cd ≪ 100% LEL  
+and practically: 
+Cd ≤ 1–5% LEL  
+Operating within this conservative range provides: 
+• 
+Large safety margin from ignition risk 
+• 
+Sufficient time for corrective intervention 
+• 
+Reduced probability of fire or explosion escalation 
+Thus, the LEL-referenced framework defines both technical detectability and safety 
+compliance simultaneously. 
+4.3.2.2 Methane Dispersion Physics and Distance-Dependent 
+Detectability 
+Following leakage at a pipeline joint, methane forms a localized turbulent plume whose 
+concentration decreases with radial distance due to atmospheric dilution and mixing. Although 
+full computational fluid-dynamics modeling is outside project scope, dispersion behavior can 
+be represented using a simplified power-law decay: 
+C(x) ∝ (1/x^n), n > 0 
+where: 
+
+--- PAGE 71 ---
+ 
+ 
+ 
+72 
+• 
+x = distance from leak source 
+• 
+n = empirical dispersion exponent influenced by turbulence and airflow 
+This relationship provides several engineering implications: 
+1. Detectability is strongly distance-dependent, requiring sensor placement near probable 
+leak sources. 
+2. Joint-level monitoring is justified, since methane concentration is highest close to the 
+containment failure. 
+3. Validation testing must include multiple distances to confirm consistent detection 
+within the expected near-field region. 
+These conclusions reinforce the petroleum-engineering decision to focus sensing at pipeline 
+joints rather than along intact pipe segments. 
+4.3.2.3 LEL-Based Detectability Envelope and Safety Interpretation 
+Combining dispersion physics with LEL normalization allows definition of a detectability 
+envelope bounded by: 
+• 
+Upper bound: 
+100% LEL → flammable mixture and unacceptable operating condition 
+• 
+Lower bound: 
+Sensor detection threshold Cd → minimum measurable methane presence 
+ 
+Table 11: Methane leak severity Classification Based on LEL 
+Leak Level 
+% LEL, ppm range in air 
+Meaning 
+Safe  
+0 – 10 %, 0 - 5000 ppm 
+No warning  
+
+--- PAGE 72 ---
+ 
+ 
+ 
+73 
+Early Leak 
+10-20 %, 5,000-10,000 ppm Early warning (small/developing 
+leak) 
+Moderate Leak  
+20-40 %, 10,000-20,000 ppm Confirmed leak, action required 
+Severe/ Critical Leak 
+> 40 %, > 20,000 ppm 
+High risk condition, immediate 
+action required  
+Flammable Zone 
+100 %, 50,000 ppm 
+Emergency (flammable if 
+ignition source present) 
+ 
+ 
+ 
+4.3.3  Final Design Analysis (CS Part) 
+The Computer Science final design evaluates the predictive AI detection subsystem, real-time 
+backend processing, alert classification logic, and secure cloud communication of the 
+integrated methane leak detection system. 
+The CS subsystem consists of the following functional blocks: 
+• Dataset Generation & Preprocessing 
+ • Feature Extraction Layer 
+ • Predictive AI Model (Isolation Forest) 
+ • Multi-Level Alert Classification 
+ • Backend API & Real-Time Processing 
+ • Secure Communication (HTTPS/TLS) 
+ • Firebase Firestore Integration 
+ 
+4.3.3.1 Dataset Generation & Preprocessing 
+Because real industrial methane leak datasets were unavailable, a physics-based synthetic 
+dataset was generated using the Beer–Lambert absorption model: 
+
+--- PAGE 73 ---
+ 
+ 
+ 
+74 
+𝐼𝑡= 𝐼0𝑒−𝑘𝐶𝐿 
+Absorbance is computed as: 
+𝐴= ln (𝐼0
+𝐼𝑡
+) 
+The dataset simulates: 
+• 
+Gradual 
+methane 
+concentration 
+ramp-up 
+ • 
+Steady 
+leak 
+phases 
+ • 
+Decay 
+behavior 
+ • 
+Gaussian 
+sensor 
+noise 
+ • Baseline drift 
+Training is performed using only normal operational data to align with anomaly detection 
+methodology. This approach is consistent with Isolation Forest design principles, which model 
+normal behavior and identify deviations as anomalies (Liu, Ting, & Zhou, 2008). 
+This methodology enables predictive detection rather than reactive binary classification.  
+The synthetic methane dataset used for model training and evaluation is accessible at: 
+https://docs.google.com/spreadsheets/d/1qhrPp3iJ2479H0R0_9BQRUXQakZdTEyCy5vZgk2
+CK2w/edit?usp=sharing 
+ 
+4.3.3.2 Feature Extraction Layer 
+Predictive detection requires time-dependent feature analysis. 
+The following features are computed: 
+First derivative: 
+𝑑𝐴
+𝑑𝑡 
+Rolling mean: 
+𝜇𝑡= 1
+𝑛∑𝐴𝑖
+𝑡
+𝑖=𝑡−𝑛
+ 
+Rolling variance: 
+
+--- PAGE 74 ---
+ 
+ 
+ 
+75 
+𝜎𝑡
+2 = 1
+𝑛  ∑(𝐴𝑖−𝜇𝑡)2
+ 
+ 
+ 
+These features capture early drift, volatility, and instability that may precede confirmed 
+methane leaks. 
+ 
+4.3.3.3 Predictive AI Model – Isolation Forest 
+The predictive model uses Isolation Forest, an unsupervised anomaly detection algorithm 
+designed to isolate abnormal points through recursive partitioning of feature space (Liu et al., 
+2008). 
+ 
+The anomaly score is defined as: 
+𝑠(𝑥,  𝑛) = 2
+−𝐸(ℎ(𝑥))
+𝑐(𝑛)  
+Where: 
+• 
+h(x) represents path length 
+• 
+c(n) is a normalization factor 
+Anomalous points require fewer partitions, resulting in shorter path lengths and higher 
+anomaly scores. 
+ 
+4.3.3.4 Time Complexity Analysis 
+Training complexity: 
+𝑂(𝑡  ∙ 𝑛log 𝑛) 
+Inference complexity: 
+𝑂(𝑡  log 𝑛) 
+
+--- PAGE 75 ---
+ 
+ 
+ 
+76 
+Where: 
+• 
+t = number of trees 
+• 
+n = subsample size 
+Due to its logarithmic inference complexity, the model satisfies the real-time constraint of ≤ 2 
+seconds. In the implemented configuration, inference time is below 100 ms per window. 
+Isolation Forest was selected because: 
+• Leak events are rare (unsupervised problem) 
+ • Early-stage deviations are subtle 
+ • The algorithm is computationally efficient 
+ • It supports anomaly scoring rather than strict binary output 
+ • It is widely validated for anomaly detection tasks (Liu et al., 2008) 
+ 
+4.3.3.5 Multi-Level Alert Classification 
+Instead of binary classification, anomaly scores are mapped into operational states: 
+If: 
+𝑠(𝑥) < 𝑇1 ⇛ 𝑁𝑜𝑟𝑚𝑎𝑙 
+If: 
+𝑇1 ≤𝑠(𝑥) < 𝑇2 ⇛ 𝐸𝑎𝑟𝑙𝑦 𝑊𝑎𝑟𝑛𝑖𝑛𝑔 (𝑌𝑒𝑙𝑙𝑜𝑤) 
+If: 
+𝑠(𝑥) ≥𝑇2 ⇛ 𝐶𝑜𝑛𝑓𝑖𝑟𝑚𝑒𝑑 𝐿𝑒𝑎𝑘 (𝑅𝑒𝑑) 
+This graded threshold approach enables predictive early warnings prior to confirmed leak 
+detection. 
+ 
+
+--- PAGE 76 ---
+ 
+ 
+ 
+77 
+4.3.3.6 Backend API & Real-Time Processing 
+The backend is implemented using FastAPI (Python). It performs: 
+• Secure HTTPS request handling 
+ • Feature extraction 
+ • Isolation Forest inference 
+ • Anomaly scoring 
+ • Alert classification 
+ • Database storage 
+Server-side inference ensures centralized model control and eliminates the need for firmware 
+updates during model improvements. 
+ 
+4.3.3.7 Secure Communication Layer (HTTPS/TLS) 
+Data transmission occurs via HTTPS secured using Transport Layer Security (TLS). 
+TLS provides: 
+• Asymmetric key exchange 
+ • Session key derivation 
+ • AES-based symmetric encryption 
+ • Integrity verification 
+According to the TLS 1.3 specification (Rescorla, 2018), AES is used internally for symmetric 
+encryption after secure key negotiation. Therefore, manual AES key exchange is unnecessary, 
+as TLS handles cryptographic negotiation and encryption automatically. 
+This design satisfies system-level encryption requirements while reducing key management 
+complexity. 
+ 
+ 
+
+--- PAGE 77 ---
+ 
+ 
+ 
+78 
+4.3.3.8 Firebase Firestore Integration 
+Firebase Firestore serves as the real-time cloud database. 
+The backend stores: 
+• Timestamp 
+ • Absorbance 
+ • Extracted features 
+ • Anomaly score 
+ • Alert classification 
+The Flutter mobile application subscribes to Firestore updates, enabling real-time monitoring 
+and graded alerts. 
+ 
+4.3.3.9 Final CS Design Performance Results 
+The CS subsystem satisfies the following integrated specifications: 
+• Predictive early leak detection capability 
+ • Multi-level alert classification 
+ • Real-time inference (< 2 seconds) 
+ • Secure TLS-encrypted communication 
+ • Cloud-based real-time monitoring 
+The predictive model selection aligns with established anomaly detection theory (Liu et al., 
+2008), while secure communication follows internationally standardized TLS cryptographic 
+protocols (Rescorla, 2018). Therefore, the CS final design satisfies all applicable 
+multidisciplinary system requirements. 
+ 
+ 
+ 
+ 
+
+--- PAGE 78 ---
+ 
+ 
+ 
+79 
+Table 12: Summary of Project Constraints and Specifications Attainment in the Final 
+Design  
+ 
+ 
+Constraints and  
+Specifications  
+Off-the- Shelf  
+Project Specific 
+(Not Off- the- 
+Shelf) 
+Responsible Department and Location of Evidence
+EE  
+PETE  
+ICS  
+Constraint 1:  
+Detection Threshold 
+Must comply with OSHA 
+standards 
+ 
+   
+Yes 
+ 
+Section 4.3.2.1  
+Section 4.3.1
+Constraint 2: 
+Methane leak detection 
+must be referenced to 
+LEL safety Thresholds 
+   
+Yes 
+ 
+Section 4.3.2.3 
+Table 5   
+Section 4.3.1
+  
+Constraint 3: 
+ 
+ 
+   
+   
+   
+Section 4.3.1
+Constraint 4 : 
+ 
+   
+ 
+ 
+   
+   
+Constraint 5:  
+ 
+   
+ 
+ 
+  
+   
+Constraint 6: 
+Components must 
+tolerate up to 75C 
+without signal drift. 
+ 
+   
+Yes  
+4.3.1.1 (Laser 
+Thermal 
+Stabilization, p. 
+63–64), 4.3.1.2 
+(Optical 
+Detection, p. 64) 
+   
+4.3.1.1–4.3.1.
+(noise/drift 
+handling in 
+preprocessing
+preprocessing
+Constraint 7: 
+The system must 
+convert the 
+photodiode's analog 
+output to digital data 
+with sufficient 
+resolution and sampling 
+rate for reliable 
+methane detection and 
+transmit this data 
+   
+Yes  
+4.3.1.3 (Analog 
+Signal 
+Conditioning, p. 
+65), 4.3.1.4 
+(Embedded 
+Digitization, p. 
+65–66), 4.3.1.5 
+(Communication 
+and Electrical 
+Protection, p. 
+66) 
+   
+4.3.1.4 
+4.3.1.5   
+
+--- PAGE 79 ---
+ 
+ 
+ 
+80 
+continuously via 
+integrated wireless 
+connectivity. 
+ 
+ 
+Specification 1:  
+The system shall detect 
+CH₄ concentrations ≥ 1% 
+LEL (≥ 500 ppm for a 
+50,000-ppm LEL 
+methane sensor) within 
+≤ 2 seconds of exposure 
+under normal operating 
+conditions.leak 
+   
+Yes  
+4.3.1.4 
+(Embedded 
+Digitization, p. 
+65–66), 4.3.1.6 
+(Final Design 
+Performance 
+Results, p. 67) 
+ 
+   
+4.3.1.4 + 
+4.3.1.6   
+Specification 2: 
+The IR source/filter shall 
+operate at 1650 nm 
+(near-IR) and 3.31 µm 
+(mid-IR) with bandwidth 
+≤ 0.20 µm. 
+Yes 
+ 
+4.2.1.3 (Laser 
+Transmission 
+Subsystem, p. 50) 
+ 
+ 
+Specification 3:  
+The laser subsystem 
+shall maintain a stable 
+link over 1.0 km line-of-
+sight under clear 
+outdoor conditions 
+ 
+Yes  
+4.3.1.2 (Optical 
+Detection 
+Subsystem, p. 64) 
+ 
+ 
+Specification 4: 
+Packet loss shall be < 1% 
+over ≥ 1000 packets 
+Yes  
+ 
+4.3.1.5 
+(Communication 
+and Electrical 
+Protection, p. 
+66) 
+ 
+4.3.1.5 
+Specification 5:  
+The system shall sample 
+the IR methane sensor 
+at a minimum rate of 10 
+Hz to support real-time 
+concentration 
+monitoring and 
+detection within the 
+required response time. 
+ 
+ 
+Yes  
+4.3.1.4 
+(Embedded 
+Digitization, p. 
+65–66) 
+ 
+4.3.1.4 
+
+--- PAGE 80 ---
+ 
+ 
+ 
+81 
+Specification 6:  
+The system shall 
+maintain a false alarm 
+rate ≤ 1% under normal 
+operating conditions. 
+ 
+ 
+Yes  
+4.2.1.6 
+(Embedded 
+Processing and 
+Methane 
+Estimation, p. 
+52), 4.3.1.6 (Final 
+Design 
+Performance 
+Results, p. 67) 
+ 
+4.3.1.6 
+Specification 7: 
+The system shall 
+operate within an 
+ambient temperature 
+range of −20°C to +50°C. 
+ 
+Yes  
+ 
+4.3.1.1 (Laser 
+Thermal 
+Stabilization, p. 
+63–64) 
+ 
+ 
+Specification 8: 
+The system shall operate 
+in relative humidity up 
+to 95% non-condensing. 
+Yes  
+ 
+4.2.1.4 (Free-
+Space Detection 
+Region, p. 50–51) 
+ 
+ 
+Specification 9: 
+The total time from 
+methane threshold 
+exceedance at the 
+sensor to alert 
+notification displayed on 
+the user application 
+shall be ≤ 10 seconds 
+under normal operating 
+conditions 
+ 
+ 
+Yes  
+4.3.1.4 
+(Embedded 
+Digitization, p. 
+65–66), 4.3.1.5 
+(Communication 
+and Electrical 
+Protection, p. 66) 
+ 
+4.2 + 4.3.1.5
+Specification 10: 
+The system shall detect 
+methane (CH₄) only, 
+with crosssensitivity to 
+non-methane gases 
+limited to ≤ 5% of the 
+methane response 
+ 
+Yes  
+4.3.1.2 (Optical 
+Detection 
+Subsystem, p. 64) 
+ 
+ 
+
+--- PAGE 81 ---
+ 
+ 
+ 
+82 
+under equivalent test 
+conditions. 
+Integrated Specification 
+1: The integrated system 
+shall generate an 
+automated early alert 
+when methane 
+concentration exceeds 
+the PETE-defined 10% 
+LEL threshold within ≤ 2 
+seconds of detection. 
+ 
+   
+Yes  
+Section 4.3.1 
+(Threshold 
+definition) , 
+Section 4.3.2 
+(Alert 
+performance 
+results) 
+ 
+4.3.1 (threshol
+logic) + 4.3.2
+(alert behavior
+Integrated 
+Specification 2: The 
+integrated prototype 
+shall achieve ≥ 70% 
+classification accuracy 
+in distinguishing no-
+leak, gradual leak, and 
+sudden leak scenarios 
+using PETE-defined 
+safety labels. 
+   
+Yes  
+Section 4.3.1 
+(LEL-based 
+detectability and 
+safety margin 
+analysis), Section 
+4.3.2 (Final 
+design 
+performance 
+results and AI 
+classification 
+evaluation). 
+4.3.1 (AI mode
+description) + 
+4.3.2 
+(classification 
+results) 
+Integrated 
+Specification 3: The 
+system shall 
+continuously measure 
+methane 
+concentration at a 
+sampling rate ≥ 10 Hz 
+and convert sensor 
+output into %LEL 
+values for safety-
+based interpretation. 
+   
+Yes  
+Section 4.2 
+(System 
+Integration 
+Architecture), 
+Section 4.3.1 
+(LEL Conversion 
+Analysis) 
+4.2 (Integration
+Architecture) +
+4.3.1 (LEL 
+conversion) 
+  
+ 
+ 
+ 
+
+--- PAGE 82 ---
+ 
+ 
+ 
+83 
+ 
+ 
+
+--- PAGE 83 ---
+ 
+ 
+ 
+84 
+ 
+4.4 Bill of Materials  
+Table 13: Bill of Materials 
+Item 
+Part Name 
+Qty 
+Description 
+Material 
+Source 
+Lead Time 
+Total 
+Cost 
+(SAR) 
+1 
+Pipelines 
+3 
+Pipeline sections 
+for methane test 
+rig setup 
+Steel 
+Pipe World 
+Trading Co. – 
+Al Khobar 
+Alshamalia 
+7 days 
+1000 
+2 
+Joints 
+2 
+Pipeline 
+connection joints 
+for assembly 
+Steel 
+Pipe World 
+Trading Co. – 
+Al Khobar 
+Alshamalia 
+7 days 
+500 
+3 
+FPL1059T – 
+1650 nm 
+Laser Diode 
+1 
+NIR methane-
+sensitive laser 
+transmitter 
+Semiconductor 
+Thorlabs 
+7 days 
+ 
+2045 
+4 
+DET20C2 – 
+InGaAs 
+Detector 
+1 
+Infrared receiver 
+(800–1700 nm) 
+Semiconductor 
+M4 
+Mounting 
+Holes 
+7 days 
+ 
+1935 
+5 
+LDM9T – 
+Laser Diode 
+Mount 
+1 
+Laser mount with 
+temperature 
+control 
+Aluminum/Electronics 
+Thorlabs 
+7 days 
+ 
+3912 
+6 
+LDC202C – 
+LD Current 
+Controller 
+1 
+Benchtop current 
+controller 
+Electronics 
+Thorlabs 
+7 days 
+ 
+4856 
+7 
+App 
+Deployment 
+(App Store) 
+1 
+Application 
+publishing service 
+Software Service 
+Apple 
+Developer 
+Program 
+Immediate 
+371 
+8 
+Vercel 
+Storage  
+1 
+Cloud hosting 
+subscription 
+Cloud Service 
+Vercel 
+Immediate 
+150 
+  
+Grand 
+Total 
+  
+  
+  
+  
+  
+14769 
+ 
+ 
+4.5  Cost Analysis  
+The total estimated cost of the final methane leak detection prototype is 14,769 SAR, which 
+satisfies the project constraint of maintaining the total prototype cost below 15,000 SAR. The 
+
+--- PAGE 84 ---
+ 
+ 
+ 
+85 
+cost distribution reflects a deliberate balance between sensing performance, safety 
+considerations, and financial feasibility at the laboratory prototype stage.  
+A significant portion of the budget is allocated to the optical subsystem, including the 1650 nm 
+laser diode, InGaAs photodetector, laser mount, and current controller. These components 
+represent the core detection mechanism of the system. Since methane detection relies directly 
+on infrared absorption and precise optical stability, investing in reliable optical hardware was 
+necessary to ensure measurement accuracy, signal consistency, and safe laser operation. The 
+laser mount and current controller, although relatively high in cost, provide temperature 
+stability and controlled excitation, which are essential for maintaining wavelength integrity and 
+avoiding signal drift.  
+Mechanical components, such as pipeline sections and joints, account for a smaller but essential 
+portion of the total cost. These elements enable realistic simulation of joint-level methane 
+leakage under controlled laboratory conditions. Their inclusion ensures that experimental valid 
+ation reflects practical containment-loss scenarios rather than abstract gas exposure testing. 
+The software-related costs, including application deployment and cloud hosting, represent a 
+relatively minor fraction of the total budget. However, they significantly enhance the system’s 
+functionality. The cloud platform enables remote monitoring and structured data storage, while 
+the mobile application provides real-time alerts and visualization. The AI-based classification 
+layer further improves reliability by reducing false alarms and enhancing decision support. 
+Notably, these software components increase system capability without substantially increasing 
+overall cost.  
+Overall, the cost structure demonstrates that a technically robust, multidisciplinary methane 
+detection prototype can be implemented within the defined academic budget constraints. The 
+final cost remains below the specified limit while preserving sensing accuracy, safety integrity, 
+and intelligent monitoring functionality, making the system both economically feasible and 
+technically credible.  
+ 
+ 
+
+--- PAGE 85 ---
+ 
+ 
+ 
+86 
+4.6  Engineering Drawing  
+ 
+ 
+Figure 10: Final Engineering Drawing (final assembly) 
+ 
+Chapter 5 
+Conclusions and Recommendations 
+5.1 Conclusion 
+The infrared-based methane leak detection system has been successfully designed, analyzed, 
+and validated at a laboratory scale. The final design integrates near-infrared laser absorption 
+sensing, analog signal conditioning, embedded digitization, AI-based classification, and cloud-
+based monitoring into a unified multidisciplinary system. 
+The Electrical Engineering analysis demonstrated that the laser excitation, optical detection, 
+and signal conditioning subsystems operate within stable and measurable limits. The system 
+achieves sufficient signal-to-noise ratio and maintains ADC resolution above the quantization 
+
+--- PAGE 86 ---
+ 
+ 
+ 
+87 
+threshold required for reliable methane-induced attenuation detection. The sampling rate of 10 
+Hz satisfies the specified response time requirement. 
+From a Petroleum Engineering perspective, methane detection was evaluated relative to the 
+Lower Explosive Limit (LEL), ensuring operation within a conservative sub-LEL regime. The 
+test validation framework confirmed that the sensing configuration can detect localized joint-
+level methane release before approaching hazardous concentrations, aligning technical 
+performance with practical safety interpretation. 
+From a Computer Science perspective, the AI-based anomaly detection model successfully 
+distinguishes methane-induced absorption patterns from normal operating conditions. Feature 
+extraction, supervised classification, and secure cloud communication collectively enhance 
+detection reliability while reducing false alarms. 
+The final design satisfies the defined technical specifications, including detection threshold, 
+response time, secure communication, and operating constraints. The system demonstrates that 
+an integrated infrared and AI-based methane monitoring solution can be implemented within 
+the defined prototype cost and safety limitations. 
+Overall, the project confirms the feasibility of combining optical sensing, embedded systems, 
+and intelligent data analysis to provide a reliable early-warning methane leak detection platform 
+suitable for further industrial development. 
+ 
+5.2 Recommendations 
+Based on the current prototype stage, several improvements are recommended for future 
+development and industrial deployment. 
+First, future work should focus on implementing a fully integrated optical module with 
+improved mechanical alignment stability. A ruggedized enclosure and vibration-resistant 
+mounting structure would enhance long-term field reliability under real pipeline conditions. 
+Second, the system should be evaluated under outdoor environmental conditions, including 
+varying temperature, humidity, and airflow, to validate performance beyond laboratory testing. 
+
+--- PAGE 87 ---
+ 
+ 
+ 
+88 
+Incorporating environmental compensation algorithms may further improve detection 
+robustness. 
+Third, the AI classification model can be enhanced using real field-collected methane leak 
+datasets instead of synthetic or laboratory-generated data. Expanding the training dataset would 
+improve model generalization and detection accuracy in practical scenarios. 
+Fourth, future designs may integrate a dedicated low-power embedded processing unit 
+optimized for industrial deployment, reducing overall power consumption and enabling 
+extended autonomous operation. 
+Finally, a pilot-scale field trial in collaboration with an industry partner is recommended to 
+evaluate the system’s scalability, communication reliability, and operational effectiveness in 
+real pipeline environments. 
+These enhancements would transition the current laboratory prototype toward a deployable 
+industrial methane leak monitoring solution. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+--- PAGE 88 ---
+ 
+ 
+ 
+89 
+ 
+References 
+[1] S. H. Tohidi, A. Ghasemi, and M. R. Gholami, “Recent advances in pipeline monitoring 
+and oil leakage detection technologies: Principles and approaches,” Sensors, vol. 19, no. 12, 
+Art. no. 2540, 2019. [Online]. Available: https://pmc.ncbi.nlm.nih.gov/articles/PMC6603558/ 
+[2] M. Kwaśny and A. Bombalska, “Optical methods of methane detection,” Sensors, vol. 23, 
+no. 5, Art. no. 2834, 2023. [Online]. Available: https://www.mdpi.com/1424-8220/23/5/2834 
+[3] Y. Zhang et al., “Portable methane sensor system based on tunable diode laser absorption 
+spectroscopy for pipeline leak detection,” Sensors and Actuators B: Chemical, 2025. 
+[Online]. Available: https://laserspec.sxu.edu.cn/docs/2025-
+03/13754ba71ce24c58b3d8518f04dabcd7.pdf 
+[4] A. Author et al., “Leak detection in gas pipelines using accurate hydraulic models,” 
+Technical Report, 2023. 
+(Local PDF source; publisher and affiliation to be added if available). 
+[5] A. Al-Shaibani et al., “A review of gas pipeline leak detection techniques and systems,” 
+Journal of Natural Gas Science and Engineering, vol. 115, 2025. [Online]. Available: 
+https://www.sciencedirect.com/science/article/pii/S2213597925000382 
+[6] American Association for the Advancement of Science (AAAS), “New optical 
+technologies improve methane leak detection,” EurekAlert!, Multimedia Release, 2023. 
+[Online]. Available: https://www.eurekalert.org/multimedia/996071 
+[7] M. R. Ghasemi and H. R. Karimi, “Advances in gas pipeline leakage detection and 
+monitoring systems,” Reviews in Analytical Chemistry, vol. 42, no. 3, 2023. [Online]. 
+Available: https://www.degruyterbrill.com/document/doi/10.1515/revac-2023-0062/html 
+[8] Gubbi, J., Buyya, R., Marusic, S., & Palaniswami, M. (2013). 
+Internet of Things (IoT): A vision, architectural elements, and future directions. Future 
+Generation Computer Systems, 29(7), 1645–1660. 
+https://doi.org/10.1016/j.future.2013.01.010 
+
+--- PAGE 89 ---
+ 
+ 
+ 
+90 
+[9] Ruff, L., et al. (2021). A unifying review of deep and shallow anomaly detection. 
+https://doi.org/10.1109/JPROC.2021.3052449 
+[10] Ahmed, M., Mahmood, A. N., & Hu, J. (2016). A survey of network anomaly detection 
+techniques. https://doi.org/10.1016/j.jnca.2015.11.016 
+[11] Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press. 
+https://www.deeplearningbook.org/ 
+[12] Hodgkinson, J., & Tatam, R. P. (2013). Optical gas sensing: A review. 
+https://doi.org/10.1088/0957-0233/24/1/012004 
+[13] Werle, P., et al. (2002). Near- and mid-infrared laser-optical sensors for gas analysis. 
+https://doi.org/10.1007/s00340-002-0976-0 
+[14] Liu, X., et al. (2020). Infrared gas detection technologies for methane monitoring. 
+Sensors. https://www.mdpi.com/1424-8220/20/18/5314 
+[15] U.S. Environmental Protection Agency (EPA). Oil and Natural Gas Sector Methane 
+Emissions. https://www.epa.gov/ghgemissions/oil-and-natural-gas-sector-ghg-emissions 
+[16] International Energy Agency (IEA). (2021). Curtailing Methane Emissions from Fossil 
+Fuel Operations. https://www.iea.org/reports/curbing-methane-emissions-from-fossil-fuel-
+operations 
+[17] American Petroleum Institute (API). API RP 1162 – Public Awareness Programs for 
+Pipeline Operators. https://www.api.org/products-and-services/standards/important-
+standards/api-rp-1162 
+[18] National Society of Professional Engineers (NSPE). NSPE Code of Ethics for Engineers. 
+https://www.nspe.org/resources/ethics/code-ethics 
+[19] ISO 45001 – Occupational Health and Safety Management Systems. 
+https://www.iso.org/iso-45001-occupational-health-and-safety.html 
+
+--- PAGE 90 ---
+ 
+ 
+ 
+91 
+[20] F. T. Liu, K. M. Ting, and Z.-H. Zhou, “Isolation Forest,” in IEEE International 
+Conference on Data Mining (ICDM), 2008. Available: 
+https://ieeexplore.ieee.org/document/4781136 
+[21] E. Rescorla, “The Transport Layer Security (TLS) Protocol Version 1.3,” RFC 8446, 
+2018. Available: https://datatracker.ietf.org/doc/html/rfc8446 
+ 
+ 
+
+--- PAGE 91 ---
+ 
+ 
+ 
+92 
+Appendix C 
+Detailed Final Engineering Drawing (final assembly): 
+ 
+ 
+ 
+ 
+
+--- PAGE 92 ---
+ 
+ 
+ 
+93 
+ 
+Appendix E 
+Point-By-Point Reply to Scope Form and CDR Presentation 
+Reviewers' Comments 
+ 
+ Context Clarification: 
+The reviewers’ comments were provided based on the initial project concept, which proposed 
+a mobile robotic methane leak detection system. During the review process, several 
+comments highlighted concerns related to unclear physical implementation, non-measurable 
+specifications, mechanical complexity, and responsibility allocation associated with the 
+robotic platform. 
+In response to this feedback, the project team conducted a thorough reassessment of the 
+proposed solution. As a result, the robotic concept was completely removed, and the project 
+was fundamentally redesigned as a fixed, externally mounted infrared-based methane leak 
+detection system. This redesign directly addresses the reviewers’ concerns and significantly 
+improves the clarity, feasibility, safety, and measurability of the system. 
+The responses below address each reviewer comment point-by-point, either by describing the 
+specific revisions made or by explaining how the new infrared-based design inherently resolves 
+the original concern. All changes are documented using Track Changes, and discipline-based 
+color coding is applied consistently throughout the revised report. 
+ 
+EE Reviewer (Dr. Junaid Ur Rehman) 
+Comment 1: Introduction to Technical Problem (Background) 
+“The technical problem is explained in detail.” 
+Team’s 
+Response: 
+ 
+We appreciate the reviewer’s positive feedback. While the technical background was 
+already detailed, minor revisions were made to ensure consistency with the revised infrared-
+based solution. References to robotic inspection were removed, and the background now 
+
+--- PAGE 93 ---
+ 
+ 
+ 
+94 
+consistently frames the technical problem around non-intrusive methane detection in pipeline 
+systems using optical methods. 
+Revised Section: 
+• 
+Chapter 1: Introduction to Technical Problem (Background) 
+ 
+Comment 2: Problem Statement 
+“Problem statement is not concise and impactful. However, it defines the problem reasonably.” 
+Team’s 
+Response: 
+ 
+ This comment was addressed by rewriting the problem statement to improve 
+conciseness and impact. The revised problem statement clearly articulates the need for a 
+reliable, non-contact, and externally mounted methane leak detection system, explicitly 
+highlighting the limitations of contact-based sensors and mechanically complex robotic 
+platforms. The new version emphasizes measurable objectives and aligns directly with the 
+infrared-based design. 
+Revised Section: 
+• 
+Chapter 1: Problem Statement 
+ 
+Comment 3: Final Target Specifications 
+“Some of the target specifications, e.g., system mobility, are not measurable.” 
+Team’s Response: 
+ 
+ 
+This comment directly motivated a major design revision. The robotic platform and 
+consequently the system's mobility requirement was completely removed. All target 
+specifications were redefined to be quantitative and measurable, including methane detection 
+threshold, response time, infrared wavelength range, power consumption, communication 
+latency, and operating duration. This ensures that all specifications can be objectively verified. 
+Revised Sections: 
+• 
+Chapter 2: Final Target Specifications 
+• 
+Chapter 2: Summary Table for Constraints and Specifications 
+ 
+Comment 4: Summary Table for Constraints and Specifications 
+“Elements of summary table were discussed previously, in details. Good work.” 
+Team’s Response: 
+
+--- PAGE 94 ---
+ 
+ 
+ 
+95 
+ 
+ 
+Thank you for the positive feedback. Following the redesign, the summary table was 
+updated to fully reflect the infrared-based system. Robot-related constraints were removed, and 
+new constraints related to infrared sensing, optical alignment, AI-based detection, and cellular 
+communication were added to maintain consistency with the revised system architecture. 
+Revised Section: 
+• 
+Chapter 2: Summary Table for Constraints and Specifications 
+ 
+Comment 5: Conceptual Design Forms 
+“Four concepts are identified with some conceptual variability.” 
+Team’s 
+Response: 
+ 
+This feedback was addressed by explicitly documenting conceptual variability using 
+structured design tools. The revised report now includes a SCAMPER analysis, a Design 
+Concept Fan, and a Pugh matrix evaluation, which collectively demonstrate how the robotic 
+concept was evaluated, compared, and ultimately eliminated in favor of the infrared-based 
+solution. 
+Revised Sections: 
+• 
+Chapter 3 (3.1): Design Concept (SCAMPER) 
+• 
+Chapter 3 (3.2): Concept Selection 
+• 
+Chapter 3.3: Concept Evaluation (Pugh Matrix) 
+ 
+Comment 6: Summary Figure for Prototype Deliverables 
+“It is unclear what the physical form of the robot looks like and who is responsible for that?” 
+ 
+Team’s 
+Response: 
+ 
+This comment was a primary driver for redesign. The robotic platform was fully 
+eliminated due to unclear physical realization and mechanical complexity. The prototype is 
+now defined as a fixed, externally mounted infrared methane leak detection system. A new 
+physical prototype figure clearly illustrates the infrared source ring, photodiode receiver ring, 
+signal conditioning circuitry, and communication module. Additionally, team responsibilities 
+are now clearly assigned by discipline. 
+Revised Sections and Figures: 
+• 
+Chapter 3 (3.4): System Architecture 
+
+--- PAGE 95 ---
+ 
+ 
+ 
+96 
+• 
+Chapter 3 (3.5): Hardware Design 
+• 
+Figure X: Physical Prototype Layout (Infrared-Based System) 
+ 
+Comment 7: Novelty of Concept 
+“Not Applicable.” 
+Team’s 
+Response: 
+ 
+Although no specific concern was raised, the revised report explicitly highlights 
+novelty through the integration of circumferential infrared sensing, AI-based classification, and 
+cellular communication in a non-intrusive pipeline-mounted configuration. 
+Revised Section: 
+• 
+Chapter 3: Novelty and Creativity of the Proposed System 
+ 
+Comment 8: Creativity of Concept 
+“Not Applicable.” 
+Team’s 
+Response: 
+ 
+No direct action was required. Creativity is implicitly demonstrated through the 
+structured ideation process (SCAMPER), elimination of mechanical complexity, and intelligent 
+system integration. 
+ 
+Overall Comment 
+“Good idea presented with sufficient details. Looking forward to seeing the execution.” 
+Team’s 
+Response: 
+ 
+We sincerely appreciate the encouraging feedback. The redesign significantly improves 
+execution feasibility by removing the robotic platform, clarifying system architecture, and 
+strengthening the use of structured design and evaluation methodologies. 
+ 
+Summary of Improvements Resulting from Reviewer Feedback 
+The reviewers’ comments directly resulted in the following improvements: 
+• 
+Complete removal of the robotic platform and mobility requirement 
+• 
+Clear and measurable system specifications 
+• 
+Well-defined physical prototype and architecture 
+• 
+Explicit use of structured design tools (SCAMPER, Concept Fan, Pugh Matrix) 
+• 
+Improved feasibility, safety, and clarity of implementation 
+
+--- PAGE 96 ---
+ 
+ 
+ 
+97 
+• 
+All revisions are visible using Track Changes, and discipline-based color coding has 
+been applied consistently. 
+ 
+ 
+ 
+ 
+ 
+PETE Reviewer (Dr. Duaa Abdelwahab) 
+Comment 1: Introduction to Technical Problem (Background) 
+‘Background information is comprehensive’. 
+Team’s 
+Response: 
+  
+We appreciate the reviewer’s positive feedback. While the technical background was 
+already detailed, minor revisions were made to ensure consistency with the revised infrared-
+based solution. References to robotic inspection were removed, and the background now 
+consistently frames the technical problem around non-intrusive methane detection in pipeline 
+systems using optical methods.  
+Revised Section: 
+• 
+Chapter 1: Introduction to Technical Problem (Background) 
+ 
+Comment 2: Problem Statement 
+“Problem statement is one sentence and concise”. 
+Team’s Response: 
+ 
+ 
+ Thank you for the feedback. The problem statement was revised to reflect the updated 
+system architecture and to maintain clarity and conciseness. The revised statement now directly 
+addresses the limitations of existing fixed methane detection methods and highlights the need 
+for a reliable infrared-based monitoring system enhanced with intelligent anomaly detection, 
+without referencing robotic inspection approaches. 
+Revised Section: 
+• 
+Chapter 1: Problem Statement 
+ 
+Comment 3: Final Target Specifications 
+“Specifications are clearly defined and measurable”. 
+
+--- PAGE 97 ---
+ 
+ 
+ 
+98 
+Team’s Response: 
+We appreciate the reviewer’s feedback. Following the redesign, the final target 
+specifications were updated to accurately represent the infrared-based fixed sensing solution. 
+Robotic-related specifications were removed, and new measurable specifications related to 
+optical wavelength selection, methane detection thresholds, alert response time, AI 
+classification accuracy, power consumption, and communication reliability were added to 
+ensure consistency with the revised system objectives. 
+Revised Sections: 
+• 
+Chapter 2: Final Target Specifications 
+• 
+Chapter 2: Summary Table for Constraints and Specifications 
+ 
+Comment 4: Summary Table for Constraints and Specifications 
+“The table fully meets all requirements, with clear and well-defined constraints and 
+specifications”. 
+Team’s 
+Response: 
+ 
+We appreciate the reviewer’s positive feedback. While the technical background was 
+already detailed, minor revisions were made to ensure consistency with the revised infrared-
+based solution. References to robotic inspection were removed, and the background now 
+consistently frames the technical problem around non-intrusive methane detection in pipeline 
+systems using optical methods.  
+Revised Section: 
+• 
+Chapter 2: Summary Table for Constraints and Specifications 
+ 
+Comment 5: Conceptual Design Forms 
+“Design concepts are presented in a creative and engaging manner”. 
+Team’s 
+Response: 
+  
+We appreciate the reviewer’s positive feedback. Minor revisions were made to ensure 
+consistency with the revised infrared-based solution.  
+Revised Sections: 
+• 
+Chapter 3.1: Design Concept (SCAMPER) 
+• 
+Chapter 3.2: Concept Selection 
+• 
+Chapter 3.3: Concept Evaluation (Pugh Matrix) 
+ 
+
+--- PAGE 98 ---
+ 
+ 
+ 
+99 
+Comment 6: Summary Figure for Prototype Deliverables 
+“For each prototype component, define the role and distribution of each department”. 
+ 
+Team’s 
+Response: 
+  
+We appreciate the reviewer’s feedback. Minor revisions were made to ensure 
+consistency with the revised infrared-based solution.  
+Revised Sections and Figures: 
+• 
+Chapter 3.4: System Architecture 
+• 
+Chapter 3.5: Hardware Design 
+ 
+Comment 7: Novelty of Concept 
+“Concept is innovative and offering a new solution”. 
+Team’s 
+Response: 
+  
+We thank the reviewer for this encouraging feedback. The revised system enhances 
+novelty by integrating fixed infrared methane sensing with AI-based anomaly detection for 
+early leak identification. While infrared sensors are established in industry, the proposed 
+combination with intelligent data analysis for trend-based detection represents a novel approach 
+within the context of fixed pipeline monitoring systems. 
+ 
+Revised Section: 
+• 
+Chapter 4: Novelty and Creativity of the Proposed System 
+ 
+Comment 8: Creativity of Concept 
+“Concept is innovative and offering a new solution”. 
+Team’s 
+Response: 
+ 
+We thank the reviewer for this encouraging feedback. The revised system enhances 
+novelty by integrating fixed infrared methane sensing with AI-based anomaly detection for 
+early leak identification. While infrared sensors are established in industry, the proposed 
+combination with intelligent data analysis for trend-based detection represents a novel approach 
+within the context of fixed pipeline monitoring systems.  
+ 
+Overall Comment: 
+
+--- PAGE 99 ---
+ 
+ 
+ 
+100 
+“The project is highly important to the petroleum industry; consider how it can be 
+implemented on a large scale rather than being limited in scope”. 
+Team’s Response: 
+We sincerely appreciate this feedback. The redesign improves scalability by 
+eliminating robotic deployment and focusing on fixed, modular infrared sensing units that can 
+be distributed across pipeline networks. The system architecture supports expansion through 
+additional sensing nodes and centralized data analysis, making it suitable for large-scale 
+deployment in oil and gas infrastructure. 
+CS Reviewer (Dr. Khadija AlSafwan) 
+ 
+Comment 1: Introduction to Technical Problem (Background) 
+“Background information is relevant and sufficient for understanding the problem.” 
+Team’s 
+Response: 
+Thank you for this positive comment. The background section has been maintained and further 
+refined in the revised report to clearly contextualize the methane leak detection problem, 
+emphasizing safety, environmental impact, and operational challenges in oil and gas pipeline 
+systems. The revised Section 1.1 (Overview) and Section 1.2 (Introduction) present a coherent 
+and focused description of the technical problem, ensuring clarity and relevance for 
+understanding the project motivation and scope. 
+ 
+Comment 2: Problem Statement 
+“Overall clear problem statement.” 
+Team’s Response: 
+ 
+Thank you for this positive comment. The problem statement has been maintained in the revised 
+report and continues to clearly define the technical challenge addressed by the project, including 
+the limitations of existing methane leak detection approaches and the motivation for a 
+laboratory-scale infrared-based solution. The clarity and focus of the problem statement are 
+reflected in Section 2.1 (Project Definition). 
+ 
+ 
+ 
+ 
+
+--- PAGE 100 ---
+ 
+ 
+ 
+101 
+Comment 3: Final Target Specifications 
+“CS Target Specifications are not clearly labeled in the presentation” 
+Team’s Response: 
+Thank you for this comment. In the revised report, the target specifications have been clearly 
+defined and explicitly labeled in Section 2.1.7 (Specifications). All specifications are now 
+presented in a numbered and measurable format, with clear identification of Computer Science–
+related specifications, including AI-based leak classification performance, application-level 
+notification of detected leaks, and secure handling of system data. This improved organization 
+enhances the clarity and traceability of the target specifications compared to the CDR 
+presentation. 
+ 
+Comment 4: Summary Table for Constraints and Specifications 
+“CS Constraints and Specifications are not clearly labeled in the presentation” 
+Team’s Response: 
+Thank you for this comment. In the revised report, the summary table for constraints and 
+specifications has been restructured to clearly identify Computer Science–related items. The 
+updated table explicitly maps constraints and specifications to the responsible majors, with 
+Computer Science contributions clearly indicated, including those related to AI-based analysis, 
+application-level leak notifications, and secure data handling. This improved labeling and 
+organization enhance the clarity and readability of the summary table compared to the CDR 
+presentation. 
+ 
+Comment 5: Conceptual Design Forms 
+“Design concepts lack realistic detail. For example, the scale and data transfer and storage are 
+questionable. Moreover, AI usage is unnecessary.” 
+Team’s 
+Response: 
+Thank you for this comment. Following the CDR presentation, the team met with Dr. Khadija 
+to review the feasibility of the proposed design. Based on this discussion, the communication 
+method was revised from WiFi to cellular communication to better reflect realistic oil and gas 
+pipeline environments, and cloud-based data storage and monitoring were incorporated to 
+clarify data handling. 
+ 
+With respect to artificial intelligence, further discussion highlighted that environmental 
+variations and sensor noise can lead to false alarms in threshold-based detection systems. 
+
+--- PAGE 101 ---
+ 
+ 
+ 
+102 
+Accordingly, a lightweight AI-based classification approach is retained to support reliable leak 
+detection. It was also emphasized that obtaining a robust and high-quality dataset is a primary 
+current project objective to ensure effective AI-based analysis. These revisions are reflected in 
+the updated conceptual design sections of the report. 
+ 
+ 
+Comment 6: Summary Figure for Prototype Deliverables 
+“The figure includes some components but lacks completeness” 
+ 
+Team’s 
+Response: 
+Thank you for this comment. In the revised report, the summary figure for the prototype 
+deliverables was updated to reflect the revised system architecture. The earlier robot-based 
+concept was replaced with a fixed infrared sensing system, and the figure now clearly illustrates 
+all major components of the updated prototype, including sensing, embedded processing, 
+software analysis, and application-level outputs. This revision improves the completeness and 
+clarity of the figure compared to the CDR presentation. 
+ 
+Comment 7: Novelty of Concept 
+“Questionable understanding of the prototype and excising solutions” 
+Team’s Response: 
+ 
+Thank you for this comment. In the revised report, we clarified that traditional threshold-based 
+gas detection methods are widely used in industry; however, many companies are actively 
+researching the use of AI-based detection techniques to improve detection accuracy and reduce 
+false alarms caused by environmental variations. The proposed project reflects this industry 
+interest by exploring the use of AI as a supporting tool for methane leak detection within a 
+controlled laboratory prototype. This clarification improves the understanding of how the 
+project relates to existing solutions and current industry research directions. 
+ 
+Comment 8: Creativity of Concept 
+“Unclear creativity and feasibility of the proposed concept.” 
+Team’s 
+Response: 
+Thank you for this comment. In the revised report, we clarified that the creativity of the project 
+lies in the AI component, which is the primary contribution of the Computer Science team. 
+
+--- PAGE 102 ---
+ 
+ 
+ 
+103 
+While threshold-based methane detection is commonly used, the project explores how AI can 
+be applied to reduce false alarms caused by environmental variations, reflecting an area of 
+growing industry interest. The concept remains feasible by building on well-established 
+infrared sensing techniques and implementing the system in a controlled laboratory setting. 
+ 
+Overall Comment 
+“Realistic check is need for rethinking and scoping of the project.” 
+Team’s Response: 
+Thank you for this comment. After the CDR presentation, the project was re-scoped and refined 
+to improve realism and feasibility. The design was simplified, assumptions were clarified, and 
+the Computer Science contribution was more clearly defined, particularly in the use of AI and 
+application-level functionality. These changes helped ensure a more realistic and well-scoped 
+project. 
+ 
+ 
+ 
+ 
+Appendix F 
+Point-By-Point Reply to CDR Report Reviewers' Comments 
+ 
+ 
+PETE Reviewer (Dr. Duaa Abdelwahab) 
+Comment 1: Fundamental Scientific and Engineering Concepts 2 
+“Concepts are perfectly aligned with project goals and supported by the required visual and 
+mathematical evidence.” 
+Team’s Response: 
+  
+We sincerely thank the reviewer for the positive feedback and are pleased that the 
+technical alignment and supporting analyses were clearly reflected in the report. 
+ 
+Comment 2: Project Constraints and Specifications 2 
+
+--- PAGE 103 ---
+ 
+ 
+ 
+104 
+“All constraints and specifications are well-structured and detailed.” 
+Team’s Response: 
+ 
+ We appreciate the reviewer’s encouraging comment and are glad that the structure 
+and clarity of the constraints and specifications were effectively communicated. 
+ 
+Comment 3: Discipline-Specific Contributions and Team Management 2 
+“The roles for the three participating departments are clearly delineated, however, the data of 
+fig. 4 isn't clear enough.” 
+Team’s Response: 
+We thank the reviewer for recognizing the clear role distribution and structured collaboration 
+among the participating departments. 
+Comment 4: Reply to Scope Form and CDR Presentation Reviewers' Comments 2 
+“Responses are good and address most reviewer comments.” 
+Team’s Response: 
+We appreciate the reviewer’s acknowledgment of our revisions and are pleased that the 
+responses adequately addressed the previous comments. 
+ 
+ 
+ 
+Coach (Dr. Umer Zahid) 
+Comment 1: Title Page, TOC, List of Figures, and List of Tables 2 
+“TOC, List of Figures, Tables, and Abbreviations are complete.” 
+ 
+Team’s Response: 
+  
+We thank the reviewer for confirming the completeness and proper organization of 
+the report front matter sections. 
+ 
+Comment 2: Abstract 2 
+“Problem, methodology, system architecture, and evaluation metrics are well explained.”  
+ 
+Team’s Response: 
+ 
+We appreciate the positive feedback and are pleased that the problem statement, 
+methodology, and evaluation metrics were clearly presented in the abstract.  
+
+--- PAGE 104 ---
+ 
+ 
+ 
+105 
+ 
+Comment 3: Background 2 
+“Clear motivation on the controlled detection of methane leakage testing.” 
+ 
+Team’s Response: 
+We thank the reviewer for recognizing the clarity of the project motivation and the 
+justification for controlled methane leak detection testing. 
+ 
+Comment 4: Project Definition and Impact 2 
+“Objectives, deliverables, customer needs, and impact are clearly defined.” 
+ 
+Team’s Response: 
+We appreciate the reviewer’s acknowledgment that the objectives, deliverables, and project 
+impact were clearly defined and structured. 
+ 
+Comment 5: Design and Development 2 
+“Concept design evaluation was good with positive feedback from reviewers.” 
+ 
+Team’s Response: 
+We thank the reviewer for the encouraging feedback on the concept design evaluation and the 
+positive assessment of the development process. 
+ 
+Comment 6: References 2 
+“References are bulk listed at the end, without being referred anywhere in the report itself.” 
+ 
+Team’s Response: 
+Thank you for the valuable observation. In-text citations have now been added throughout the 
+report to properly reference the listed sources and improve academic traceability and 
+consistency. 
+ 
+ 
+ 
+ 
+ 
+
+--- PAGE 105 ---
+ 
+ 
+ 
+106 
+ 
+ 
+ 
+EE Reviewer (Dr. Junaid Ur Rehman) 
+ 
+Comment 1: Fundamental Scientific and Engineering Concepts 
+Reviewer Comment: 
+The section is excellent. It clearly connects fouling mechanisms and fluid mechanics to the 
+project goals, providing a strong scientific base. 
+Response: 
+We sincerely thank the reviewer for the positive evaluation of this section. We greatly 
+appreciate the recognition of the strong scientific foundation and the clarity of its connection to 
+the project objectives. 
+ 
+Comment 2: Project Constraints and Specifications 
+Reviewer Comment: 
+The section is excellent. It gives clear, measurable specifications and engineering standards 
+across all disciplines, showing a well-integrated and professional multidisciplinary design. 
+Response: 
+We appreciate the reviewer’s encouraging feedback regarding the clarity and integration of the 
+project constraints and specifications. The team is grateful for the acknowledgment of the 
+multidisciplinary coordination reflected in the report. 
+ 
+Comment 3: Discipline-Specific Contributions and Team Management 
+Reviewer Comment: 
+Exemplary section that provides a professional mapping of multidisciplinary roles by linking 
+system components and functional arrows to relevant coursework and standards. 
+
+--- PAGE 106 ---
+ 
+ 
+ 
+107 
+Response: 
+We thank the reviewer for recognizing the structured mapping of roles and responsibilities 
+within the team. The positive feedback regarding the professional presentation and integration 
+of disciplinary contributions is sincerely appreciated. 
+ 
+Comment 4: Reply to Scope Form and CDR Presentation Reviewers’ Comments 
+Reviewer Comment: 
+The responses are clear, detailed, and show strong improvements based on the reviewer’s 
+feedback. Each comment is addressed professionally with specific references to the revised 
+sections. 
+Response: 
+We are grateful for the reviewer’s acknowledgment of the clarity and professionalism of our 
+responses. The constructive feedback provided throughout the review process has been highly 
+valuable to the team. 
+ 
+CS Reviewer (Dr. Khadija Safwan) 
+All tracked changes are seen in RED. Further improvements are found in the FDR 
+report. 
+Comment 1: Fundamental Scientific and Engineering Concepts 
+Reviewer Comment: 
+Shallow description of software engineering concepts, which is expected for a non-software-
+centered project. 
+Response: 
+The software sections have been expanded to provide clearer architectural justification, 
+including detailed explanations of the anomaly detection model, backend processing workflow, 
+feature engineering strategy, and secure communication design. Greater emphasis was placed 
+on algorithm selection rationale, real-time performance considerations, and system-level 
+integration. These improvements were further refined and elaborated in the FDR report. 
+
+--- PAGE 107 ---
+ 
+ 
+ 
+108 
+ 
+Comment 2: Project Constraints and Specifications 
+Reviewer Comment: 
+Comments were provided duringthe FDR presentation. 
+Response: 
+The specifications section has been revised to explicitly connect system constraints with design 
+decisions. Real-time detection limits, secure communication requirements, and predictive 
+detection objectives are now directly supported by architectural and algorithmic justifications. 
+Additional clarification and structured linkage between constraints and implementation were 
+incorporated in the FDR report. 
+ 
+Comment 3: Discipline-Specific Contributions and Team Management 
+Reviewer Comment: 
+Comments were provided duringthe FDR presentation, figure 4 is not readable 
+Response: 
+The system architecture figure has been redesigned to improve clarity, readability, and 
+subsystem separation. Visual elements were simplified and reorganized to clearly illustrate EE–
+CS boundaries and backend processing flow. These revisions are reflected in the updated FDR 
+reportt. 
+ 
+ 
+Comment 4: Reply to Scope Form and CDR Presentation Reviewers’ Comments 
+Reviewer Comment: 
+Not all SWE concerns are resolved, but moving in the right direction 
+
+--- PAGE 108 ---
+ 
+ 
+ 
+109 
+Response: 
+Additional refinements were made to strengthen the software engineering depth of the project, 
+including clearer documentation of the anomaly detection approach, backend architecture, and 
+security implementation. The FDR report further expands on these updates to address the 
+remaining SWE concerns in a more structured and technically detailed manner. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Appendix G 
+Point-By-Point Reply to Final Design Presentation Reviewers' 
+Comments  
+EE Reviewer (Dr. Junaid Ur Rehman) 
+All Electrical Engineering revisions in the written report are highlighted in Blue using Track 
+Changes. 
+Comment 1: Final Design 
+Final block diagram was presented and discussed. Discussing inter-dependency of 
+department's contribution could improve it. 
+Response: 
+During the presentation (Slide 4 – “Block Diagram with All Disciplines Contributions”  
+FDR Presentation Team F040), interdependencies were shown visually but not sufficiently 
+explained verbally. 
+To address this: 
+
+--- PAGE 109 ---
+ 
+ 
+ 
+110 
+• 
+The written report (Section 4.1 and 4.2 EE Part) now explicitly explains: 
+o How PETE leak modeling defines optical path assumptions. 
+o How EE signal stability determines AI classification reliability. 
+o How CS alert logic depends on EE sampling and response time. 
+• 
+Figure 9 description was strengthened to clearly state cross-discipline signal and data 
+flow. 
+This revision ensures that the final design is presented as an integrated multidisciplinary system 
+rather than parallel contributions. 
+ 
+Comment 2: Discipline Final Design Details 
+Some values used in the calculation appear arbitrary (e.g., alert line calculation). 
+Response: 
+In the presentation (Slides 11–13: “Electrical Engineering – Final Design Calculations”  
+FDR Presentation Team F040), several values were shown without full derivation explanation. 
+To resolve this: 
+• 
+The written report Section 4.3.1 now includes: 
+o Explicit derivation of sampling rate (10 Hz) based on plume dynamics. 
+o Justification of ≤ 2 s detection time using 10-sample averaging. 
+o SNR reasoning for ADC resolution. 
+o Explicit LEL-based threshold derivation for alert logic. 
+• 
+Assumptions (temperature stability, detector linearity, quantization margin) are now 
+clearly stated. 
+
+--- PAGE 110 ---
+ 
+ 
+ 
+111 
+All numerical values are now physically justified and traceable. 
+ 
+Comment 3: Specifications Attainment 
+Some calculations seem arbitrary in demonstrating attainment. 
+Response: 
+Slides 22–26 (“Summary Table – Specifications & Constraints”  
+FDR Presentation Team F040, showed status (Met / Not Met Yet) but lacked full analytical 
+justification during presentation. 
+To strengthen this: 
+• 
+Section 4.3 – Final Design Performance Results now explicitly links: 
+o Each EE specification → Supporting equation → Evidence. 
+• 
+Table 4 in the written report now includes: 
+o Clear section references. 
+o Analytical evidence (e.g., ADC timing logs, packet loss formula, power 
+calculation). 
+• 
+LTE latency and packet loss calculations are explicitly derived rather than asserted. 
+This ensures specification attainment is quantitatively defendable. 
+ 
+Overall Comment 
+Ensure calculations and design decisions are well-motivated and explainable. 
+Response: 
+In response, we enhanced the EE documentation by: 
+• 
+Expanding equation derivations. 
+
+--- PAGE 111 ---
+ 
+ 
+ 
+112 
+• 
+Adding explicit engineering assumptions. 
+• 
+Explaining trade-offs (sampling rate vs power consumption). 
+• 
+Clarifying LEL-based safety margins. 
+• 
+Strengthening physical reasoning behind 1650 nm wavelength selection. 
+These improvements increase analytical transparency and eliminate ambiguity in design 
+decisions. 
+ 
+ 
+ 
+ 
+ 
+CS Reviewer (Dr. Khadijah Safwan) 
+All Computer Science revisions in the written report are highlighted in Pink using Track 
+Changes. 
+Comment 1: Final Design 
+document what each unit does clearly. 
+Response: 
+The final design report has been revised to clearly define the function of each CS unit within 
+the system architecture. The Data Acquisition section now explicitly explains the EE–CS 
+interface and absorbance transformation. The Signal Processing section details preprocessing 
+and temporal feature extraction. The AI section clearly defines the Isolation Forest anomaly 
+detection model and multi-level alert logic (Normal, Yellow, Red). The Backend section 
+specifies real-time inference responsibilities, while the Security section clarifies TLS-based 
+encrypted communication. Each unit now has a defined functional role within the predictive 
+methane detection pipeline. 
+ 
+ 
+Comment 2: Discipline Final Design Details 
+
+--- PAGE 112 ---
+ 
+ 
+ 
+113 
+Great design. Explore more: how are you going to exchange the AES128 key between 
+your embedded system and the FastAPI? 
+Response: 
+The design was updated to clarify that secure communication is implemented using HTTPS 
+with Transport Layer Security (TLS). TLS performs authenticated key exchange during the 
+handshake phase and automatically establishes a session key. AES-based symmetric encryption 
+is then used internally within the TLS session. Therefore, manual AES key exchange between 
+the embedded system and FastAPI is not required, as secure key negotiation and encryption are 
+handled by the TLS protocol itself. This approach simplifies key management while 
+maintaining confidentiality and integrity of transmitted data. 
+ 
+ 
+ 
+Comment 3: Specifications Attainment 
+There is a lack of design around your specifications and constraints 
+Response: 
+The CS sections have been revised to explicitly connect design decisions to system 
+specifications. The Isolation Forest model was selected due to its computational efficiency and 
+suitability for rare-event anomaly detection, ensuring real-time inference within the ≤2 second 
+constraint. The predictive multi-level alert logic supports early warning capability as required 
+by system safety objectives. HTTPS-based encrypted transmission satisfies data security 
+requirements. Additionally, backend deployment allows model updates without firmware 
+changes, improving maintainability and scalability. Each specification is now supported by a 
+corresponding architectural or algorithmic justification. 
+ 
+ 
+Overall Comment 
+Avoid reading unless presenting technical terms or numbers. There are a couple of 
+misspellings. 
+Response: 
+Thank you for the feedback. We will avoid reading during presentations and focus on clear 
+conceptual explanation. The report has also been reviewed to correct spelling and formatting 
+issues. 
+ 
+ 
+ 
+
+--- PAGE 113 ---
+ 
+ 
+ 
+114 
+ 
+ 
+ 
+ 
+ 
+Coach (Dr. Umer Zahid) 
+Comment 1: Elevator Pitch 
+Elevator pitch needs significant improvement in terms of delivery and speech. Current 
+pitch is too long where student was just reading it with her tablet. The purpose of pitch 
+is to present the theme/idea of the project in a non-technical and persuasive manner. 
+Response: 
+The elevator pitch has been revised to be shorter, clearer, and more persuasive. Technical details 
+were minimized to focus on the core idea, problem motivation, and impact. The delivery 
+approach has been improved to avoid reading directly from notes and instead emphasize 
+confident, conceptual presentation of the project theme. 
+ 
+ 
+Comment 2: Gantt Chart and Project Timeline Adherence 
+Gantt chart is well constructed, however, difficult to read because of poor resolution. 
+Also, the timeline is fragmented and many tasks not mapped on the timeline. 
+Response: 
+The Gantt chart has been redesigned with improved resolution and formatting to enhance 
+readability. Tasks have been consolidated and clearly mapped onto the timeline to reflect 
+parallel execution across disciplines and better adherence to project milestones. 
+ 
+ 
+ 
+Comment 3: Deliverables 
+Deliverables should be compact and precise about the final product(s). Many of the 
+deliverables seems like tasks. Putting lengthy descriptions dilute the main focus of the 
+work. 
+
+--- PAGE 114 ---
+ 
+ 
+ 
+115 
+Response: 
+The deliverables section has been revised to focus on clear, measurable final products rather 
+than intermediate tasks. Descriptions were condensed to highlight the tangible outputs of the 
+project, including the sensing prototype, validated dataset, anomaly detection module, and real-
+time monitoring interface. 
+ 
+ 
+Comment 4: Visual Support and Delivery 
+Delivery and visual support is good. 
+Response: 
+Thank you for the positive feedback. Efforts will continue to maintain clear visual 
+communication and structured presentation flow. 
+ 
+ 
+Comment 5: Overall Comments 
+Based on the reviewer comments, overall, the project is moving in the right direction. 
+Students are recommended to get continuous feedback from respective evaluators. 
+Response: 
+We appreciate the feedback and will continue seeking regular guidance from evaluators to 
+ensure steady improvement in both technical development and presentation quality. 
+ 
+ 
+PETE Reviewer (Dr. Duaa Abdelwahab) 
+All Petroleum Engineering revisions in the written report are highlighted in Red using Track 
+Changes. 
+Comment 1: Final Design 
+“Block diagram is mostly clear and well-structured.” 
+Response: 
+Thank you for the positive feedback regarding the clarity and structure of the block diagram.  
+ 
+ 
+
+--- PAGE 115 ---
+ 
+ 
+ 
+116 
+ 
+ 
+Comment 2: Discipline Final Design Details 
+ 
+“PE contributions are solid in defining leak severity levels. You should expand your role by 
+adding quantative leakage PE analysis, the pressure dependent leakage, dispersion behavior... 
+etc. In addition, applying the developed system to a field case would significantly strengthen 
+the PE contribution by demonstrating methane leak detection at different surface facility 
+components such as wellheads, chokes, pipelines, and related surface equipment.” 
+ 
+Response: 
+Thank you for the valuable recommendation. In response, the Petroleum Engineering 
+contribution has been expanded significantly in Sections 4.2 and 4.3.1. Quantitative analysis 
+was incorporated through LEL normalization, methane concentration-to-%LEL conversion, 
+and a structured severity classification framework grounded in flammability physics. 
+Additionally, a dispersion-based interpretation model was added to explain concentration decay 
+relative to leak proximity. The discussion was further strengthened by incorporating realistic 
+field-relevant leakage scenarios at pipeline joints, flanges, and surface facility components. 
+These additions expand the PE role beyond qualitative interpretation into quantitative safety-
+based analysis. 
+ 
+Comment 3: Specifications Attainment 
+“You should add evidence for specification and constraints.” 
+Response: 
+Thank you for highlighting the need for clearer traceability. Table 6 has been revised to 
+explicitly include evidence locations for all constraints, specifications, and integrated 
+specifications. Each item now references the exact report section where it is justified, including 
+Sections 4.2 (Detailed Design Description), 4.3.1 (Final Design Analysis), and 4.3.2 (Final 
+Design Results). OSHA compliance, LEL threshold selection, AI classification accuracy, 
+sampling rate, and system latency are now directly linked to documented analysis and results.  
+ 
+ 
+
+--- PAGE 116 ---
+ 
+ 
+ 
+117 
+Overall Comment 
+“Overall, the project is very good; however, the role of Petroleum Engineering remains 
+limited and should be expanded by incorporating the above-mentioned quantitative analyses, 
+field-scale application, and surface facility leakage scenarios.” 
+ 
+Response: 
+Thank you for the overall positive evaluation of the project. The Petroleum Engineering role 
+has been integral from the conceptual phase, particularly in defining the safety context, risk-
+based detection philosophy, and engineering meaning of methane concentration measurements. 
+PETE established the LEL-referenced detection strategy, structured the leak severity 
+framework, ensured compliance with flammability safety standards, and aligned the system 
+with realistic oil and gas surface infrastructure scenarios. Rather than focusing on hardware 
+development, the PETE contribution ensured that the system produces safety-interpretable 
+outputs grounded in petroleum engineering principles. Therefore, the discipline’s role is 
+analytical, safety-oriented, and essential to the overall functionality of the integrated prototype. 
+ 
+
