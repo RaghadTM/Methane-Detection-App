@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 from datetime import datetime
+from app.services.ai_service import train_ai_models, predict_with_ai
 import time
 
 from fastapi import FastAPI
@@ -17,7 +18,9 @@ from app.services.firestore_service import (
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    print("AI training started...")
     train_ai_models()
+    print("AI training finished.")
     yield
 
 
