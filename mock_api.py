@@ -23,10 +23,11 @@ df = pd.read_csv(CSV_PATH)
 state = {
     "current_index": 0,
     "consecutive_anomalies": 0,
-    "is_running": False
+    "is_running": False,
+    "history": []
 }
 
-@app.get("/")
+@app.get("/api")
 async def root():
     # Auto-start on first hit
     if not state["is_running"]:
@@ -36,7 +37,7 @@ async def root():
         "is_running": state["is_running"]
     }
 
-@app.get("/status")
+@app.get("/api/status")
 async def get_status():
     # Force start if requested
     if not state["is_running"]:
@@ -86,7 +87,7 @@ async def get_status():
     elif state["consecutive_anomalies"] > 0:
         probability = round(40.0 + (state["consecutive_anomalies"] * 15.0) + (random.random() * 2.0), 1)
 
-    return {
+    data = {
         "is_running": True,
         "index": idx,
         "timestamp": str(row["Time"]),
@@ -97,23 +98,36 @@ async def get_status():
         "leak_speed": leak_speed,
         "is_alarm": is_alarm,
         "anomaly_count": state["consecutive_anomalies"],
-        "response_time": response_time
+        "response_time": response_time,
+        "sent_at": int(time.time() * 1000),
+        "db_latency": random.randint(10, 45)
     }
+    
+    # Update history (keep last 50 samples)
+    state["history"].insert(0, data)
+    if len(state["history"]) > 50:
+        state["history"].pop()
+        
+    return data
 
-@app.post("/start")
+@app.get("/api/history")
+async def get_history():
+    return state["history"]
+
+@app.post("/api/start")
 async def start_experiment(start_index: int = 0):
     state["current_index"] = start_index
     state["consecutive_anomalies"] = 0
     state["is_running"] = True
     return {"message": "Started"}
 
-@app.post("/stop")
+@app.post("/api/stop")
 async def stop_experiment():
     state["current_index"] = 0
     state["is_running"] = False
     return {"message": "Stopped"}
 
-@app.post("/trigger_leak")
+@app.post("/api/trigger_leak")
 async def trigger_leak():
     remaining_df = df.iloc[state["current_index"]:]
     leak_indices = remaining_df[remaining_df["Leak_Type"] > 0].index
@@ -124,4 +138,4 @@ async def trigger_leak():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8001)
+    uvicorn.run(app, host="0.0.0.0", port=8081)
